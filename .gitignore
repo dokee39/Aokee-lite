@@ -46,7 +46,31 @@
 *.mod*
 *.cmd
 .tmp_versions/
+
+# dot files
+.vscode/
+.settings
+.eide/
+.eide.usr.ctx.json
+
+# project out
+build/
+bin/
+obj/
+out/
+
+# eide template
+*.ept
+*.eide-template
+
+# others
+.cache/
+gdb-*
+debug-*
 modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+.DS_Store
+.mxproject
+.nvim.lua
