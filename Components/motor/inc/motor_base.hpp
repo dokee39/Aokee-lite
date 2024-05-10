@@ -10,13 +10,13 @@ namespace Motor
         explicit MotorBase(const T_run run) :run_(run) {}
         virtual ~MotorBase() = default;
 
-        bool ctrl(const T ctrl_val) const;
+        virtual bool ctrl(const T ctrl_val) const = 0;
 
     protected:
         const T_run run_;
 
     private:
-        explicit MotorBase();
+        MotorBase(); // must init
         
     };
 
@@ -26,11 +26,11 @@ namespace Motor
     {
     public:
         explicit FbkMotorBase(const T_run run, const T_fbk fbk)
-            :MotorBase<T, T_run>(run),
-             fbk_(fbk),
-             speed_(0.0f),
-             angle_(0.0f)
-        {}
+            : MotorBase<T, T_run>(run),
+              fbk_(fbk),
+              speed_(0.0f),
+              angle_(0.0f) {
+        }
         virtual ~FbkMotorBase() = default;
 
         void update(const float speed, const float angle)
@@ -50,7 +50,7 @@ namespace Motor
         float speed_;
         float angle_;
         
-        explicit FbkMotorBase(); // must init
+        FbkMotorBase(); // must init
     };
 } // namespace Motor 
 

@@ -1,23 +1,19 @@
 #include "pwm_dc_motor.hpp"
 #include <cstdint>
 
+#include "user_lib_cpp.hpp"
+
 namespace Motor {
-    bool PwmDcMotor::ctrl(const int32_t ctrl_val) const
+    bool PwmDcMotor::ctrl(int32_t ctrl_val) const
     {
         bool ret(true);
-        bool dir(true);
-        uint32_t ccr_val(0);
+
+        UserLib::abs_limit<int32_t>(ctrl_val, CCR_VAL_MAX_);
 
         if (ctrl_val < 0)
-        {
-            dir = true;
-            ccr_val = static_cast<uint32_t>(ctrl_val);
-        } else {
-            dir = false;
-            ccr_val = static_cast<uint32_t>(-ctrl_val);
-        }
-
-        ret = run_(dir, ccr_val > CONFIG_.CCR_VAL_MAX_ ? CONFIG_.CCR_VAL_MAX_ : ccr_val); 
+            ret = run_(false, static_cast<uint32_t>(-ctrl_val));
+        else
+            ret = run_(true, static_cast<uint32_t>(ctrl_val));
         
         return ret;
     }
@@ -26,8 +22,14 @@ namespace Motor {
     {
         bool ret(true);
         int32_t ecd_delta(fbk_());
+        float speed(0.0f);
+        float angle(0.0f);
         
-        
+        angle = get_angle() + ecd_delta * PULSE_TO_RAD_RATIO_;
+        angle = UserLib::rad_format(angle);
+        speed = ecd_delta * PULSE_TO_RAD_RATIO_ / FBK_PERIOD_ * 1000.0f;
+
+        update(speed, angle);
 
         return ret;
     }

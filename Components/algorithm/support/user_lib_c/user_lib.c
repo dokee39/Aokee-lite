@@ -71,15 +71,15 @@ void first_order_filter_cali(first_order_filter_type_t *first_order_filter_type,
 }
 
 //绝对限制
-void abs_limit(float *num, float Limit)
+void abs_limit(float *num, float limit)
 {
-    if (*num > Limit)
+    if (*num > limit)
     {
-        *num = Limit;
+        *num = limit;
     }
-    else if (*num < -Limit)
+    else if (*num < -limit)
     {
-        *num = -Limit;
+        *num = -limit;
     }
 }
 
