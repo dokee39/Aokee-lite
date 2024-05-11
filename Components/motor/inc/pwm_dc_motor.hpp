@@ -1,14 +1,10 @@
 #pragma once
 
 #include <cstdint>
-#include <functional>
 
 #include "motor_base.hpp"
 
 namespace Motor {
-
-    using driver_set_t = std::function<bool(const bool, const uint32_t)>;
-    using ecd_get_t = std::function<int32_t()>;
 
     struct PwmDcMotorConfig
     {
@@ -30,12 +26,13 @@ namespace Motor {
     };
 
     // derived class : DC motor (controlled by PWM & feedback via pulse encoder)
-    class PwmDcMotor : public PwmDcMotorConfig, public FbkMotorBase<int32_t, driver_set_t, ecd_get_t> 
+    template <typename T_imp>
+    class PwmDcMotor : public PwmDcMotorConfig, public FbkMotorBase<int32_t, T_imp> 
     {
     public:
-        explicit PwmDcMotor(const PwmDcMotorConfig &config, const driver_set_t driver_set, const ecd_get_t ecd_get)
+        explicit PwmDcMotor(const PwmDcMotorConfig &config, T_imp &imp)
             : PwmDcMotorConfig(config),
-              FbkMotorBase(driver_set, ecd_get) {
+              MotorBase<int32_t, T_imp>::imp(imp) {
         }
         ~PwmDcMotor() = default;
 

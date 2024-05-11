@@ -6,6 +6,7 @@
 #include "chassis_base.hpp"
 #include "pwm_dc_motor.hpp"
 #include "imu.hpp"
+#include "pwm_dc_motor_imp.hpp"
 
 namespace Chassis
 {
@@ -26,7 +27,7 @@ namespace Chassis
         void init() override;
         
         Dev::Imu imu;
-        std::vector<Motor::PwmDcMotor> motors;
+        std::vector<Motor::PwmDcMotor<Motor::PwmDcMotorImp>> motors;
 
     private:
         const uint32_t MOTOR_NUM = 2;

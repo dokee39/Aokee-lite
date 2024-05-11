@@ -3,34 +3,42 @@
 namespace Motor
 {
     // base class : motor
-    template <typename T, typename T_run>
+    template <typename T, typename T_imp>
     class MotorBase
     {
     public:
-        explicit MotorBase(const T_run run) :run_(run) {}
+        explicit MotorBase() = default;
         virtual ~MotorBase() = default;
 
         virtual bool ctrl(const T ctrl_val) const = 0;
 
-    protected:
-        const T_run run_;
+    // protected:
+#warning "protected? reference(&)?"
+        T_imp imp; // implement
 
     private:
-        MotorBase(); // must init
         
     };
 
-    // base class : motor with feedback 
-    template <typename T, typename T_run, typename T_fbk>
-    class FbkMotorBase : public MotorBase<T, T_run>
+    // base class : implement for motor (T_imp in MotorBase, designed for compatible with different platform)
+    class MotorImpBase
     {
     public:
-        explicit FbkMotorBase(const T_run run, const T_fbk fbk)
-            : MotorBase<T, T_run>(run),
-              fbk_(fbk),
-              speed_(0.0f),
-              angle_(0.0f) {
-        }
+        explicit MotorImpBase() = default;
+        virtual ~MotorImpBase() = default;
+
+        // overload the following functions in derived class, do not use them directly
+        void run();
+        void fbk();
+
+    };
+
+    // base class : motor with feedback 
+    template <typename T, typename T_imp>
+    class FbkMotorBase : public MotorBase<T, T_imp>
+    {
+    public:
+        explicit FbkMotorBase() = default;
         virtual ~FbkMotorBase() = default;
 
         void update(const float speed, const float angle)
@@ -43,14 +51,10 @@ namespace Motor
 
         bool feedback();
 
-    protected:
-        const T_fbk fbk_;
-
     private:
-        float speed_;
-        float angle_;
+        float speed_ = 0.0f;
+        float angle_ = 0.0f;
         
-        FbkMotorBase(); // must init
     };
 } // namespace Motor 
 
