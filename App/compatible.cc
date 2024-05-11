@@ -1,16 +1,15 @@
 #include "compatible.h"
+#include "robot_ctrl.hpp"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+void *new_RobotCtrl()
+{
+    return static_cast<void *>(new Robot::RobotCtrl());
+}
+
 
 void imu_task(void *arg)
 {
-#warning "TODO"
-    while(1);   
+    Robot::RobotCtrl &robot = *static_cast<Robot::RobotCtrl *>(arg);
+    robot.chassis.imu.task(arg);
 }
-
-#ifdef __cplusplus
-} // extern "C"
-#endif
 

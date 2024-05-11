@@ -1,5 +1,9 @@
 #pragma once
 
+#include "FreeRTOS.h"
+#include "portmacro.h"
+#include "task.h"
+
 namespace Dev
 {
     class Imu
@@ -16,6 +20,9 @@ namespace Dev
 
         [[noreturn]] void task(void *arg);
         void calc_angle();
+
+    private:
+        TickType_t xLastWakeTime;
 
     };
 }

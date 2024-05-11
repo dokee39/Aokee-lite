@@ -23,7 +23,6 @@ namespace Dev
         
         for(;;)
         {
-            
             BMI088_read(gyro, acc, &temp);
             
             MahonyAHRSupdateIMU(quat, gyro[0], gyro[1], gyro[2], acc[0], acc[1], acc[2]);

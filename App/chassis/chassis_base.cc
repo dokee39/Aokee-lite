@@ -2,8 +2,7 @@
 
 namespace Chassis
 {
-    template <typename T>
-    void ChassisBase<T>::task(void *arg)
+    void ChassisBase::task(void *arg)
     {
         while (true)
         {

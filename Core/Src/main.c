@@ -108,8 +108,10 @@ int main(void)
   /* USER CODE BEGIN 2 */
     HAL_TIM_Base_Start(&htim2);
 
+    void *robot = new_RobotCtrl();
+
     xTaskCreate(led_task, "led task", configMINIMAL_STACK_SIZE, NULL, (tskIDLE_PRIORITY + 1), &xCreatedLedTask);
-    xTaskCreate(imu_task, "imu task", configMINIMAL_STACK_SIZE * 8, NULL, (tskIDLE_PRIORITY + 6), &xCreatedImuTask);
+    xTaskCreate(imu_task, "imu task", configMINIMAL_STACK_SIZE * 8, robot, (tskIDLE_PRIORITY + 6), &xCreatedImuTask);
   /* Start scheduler */
     vTaskStartScheduler();
   /* USER CODE END 2 */

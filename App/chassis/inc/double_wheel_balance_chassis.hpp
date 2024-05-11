@@ -1,33 +1,35 @@
 #pragma once
 
 #include <cstdint>
-#include <memory>
+#include <vector>
 
 #include "chassis_base.hpp"
-#warning "解耦？"
+#include "pwm_dc_motor.hpp"
 #include "imu.hpp"
 
 namespace Chassis
 {
     struct DoubleWheelBalanceChassisConfig
     {
-        explicit DoubleWheelBalanceChassisConfig();
-        ~DoubleWheelBalanceChassisConfig();
+        explicit DoubleWheelBalanceChassisConfig() = default;
+        ~DoubleWheelBalanceChassisConfig() = default;
 
     };
 
-    template <typename T>
-    class DoubleWheelBalanceChassis : public DoubleWheelBalanceChassisConfig, public ChassisBase<T>
+    class DoubleWheelBalanceChassis : public DoubleWheelBalanceChassisConfig, public ChassisBase
     {
     public:
-        explicit DoubleWheelBalanceChassis();
+        explicit DoubleWheelBalanceChassis() = default;
         ~DoubleWheelBalanceChassis() = default;
+        
+#warning "init?"
+        void init() override;
+        
+        Dev::Imu imu;
+        std::vector<Motor::PwmDcMotor> motors;
 
     private:
         const uint32_t MOTOR_NUM = 2;
-
-#warning "init?"
-        Dev::Imu imu;
 
         void update_state() override;
         void ctrl_val_calc() override;

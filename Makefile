@@ -85,8 +85,8 @@ ifeq ($(DEBUG), 1)
 	CFLAGS += -g -gdwarf-3
 endif
 # libraries
-LIBS += -lc -lm 
-LDFLAGS := $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIB_FLAGS) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections -Wl,--no-warn-rwx-segments
+LIBS += -lc -lm -lstdc++
+LDFLAGS := $(MCU) -specs=nano.specs -specs=nosys.specs -T$(LDSCRIPT) $(LIB_FLAGS) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections -Wl,--no-warn-rwx-segments
 
 # --------------------------------------------------------------
 # build your project!

@@ -1,27 +1,29 @@
 #include "double_wheel_balance_chassis.hpp"
+#include "BMI088driver.h"
 
 namespace Chassis
 {
-    template <typename T>
-    void DoubleWheelBalanceChassis<T>::update_state()
+    void DoubleWheelBalanceChassis::init()
     {
         
     }
 
-    template <typename T>
-    void DoubleWheelBalanceChassis<T>::ctrl_val_calc()
+    void DoubleWheelBalanceChassis::update_state()
     {
         
     }
 
-    template <typename T>
-    void DoubleWheelBalanceChassis<T>::ctrl()
+    void DoubleWheelBalanceChassis::ctrl_val_calc()
     {
         
     }
 
-    template <typename T>
-    void DoubleWheelBalanceChassis<T>::task_delay_until() const
+    void DoubleWheelBalanceChassis::ctrl()
+    {
+        
+    }
+
+    void DoubleWheelBalanceChassis::task_delay_until() const
     {
         
     }
