@@ -3,13 +3,8 @@
 
 namespace Motor
 {
-    PwmDcMotorImp::PwmDcMotorImp(TIM_HandleTypeDef &htim_pwm, const uint32_t TIM_PWM_CHANNEL_A, TIM_HandleTypeDef &htim_ecd, const uint32_t TIM_ECD_CHANNEL_A)
-        : htim_pwm(htim_pwm),
-          TIM_PWM_CHANNEL_A(TIM_PWM_CHANNEL_A),
-          TIM_PWM_CHANNEL_B(TIM_PWM_CHANNEL_A == TIM_CHANNEL_1 ? TIM_CHANNEL_2 : TIM_CHANNEL_4),
-          htim_ecd(htim_ecd),
-          TIM_ECD_CHANNEL_A(TIM_ECD_CHANNEL_A),
-          TIM_ECD_CHANNEL_B(TIM_ECD_CHANNEL_A == TIM_CHANNEL_1 ? TIM_CHANNEL_2 : TIM_CHANNEL_4)
+    PwmDcMotorImp::PwmDcMotorImp(const PwmDcMotorImpConfig &config)
+        : PwmDcMotorImpConfig(config)
     {
         HAL_TIM_PWM_Start(&htim_pwm, TIM_PWM_CHANNEL_A);
         HAL_TIM_PWM_Start(&htim_pwm, TIM_PWM_CHANNEL_B);

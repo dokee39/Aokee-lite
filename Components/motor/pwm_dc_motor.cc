@@ -12,9 +12,9 @@ namespace Motor {
         UserLib::abs_limit<int32_t>(ctrl_val, CCR_VAL_MAX_);
 
         if (ctrl_val < 0)
-            ret = MotorBase<int32_t, T_imp>::imp.run(false, static_cast<uint32_t>(-ctrl_val));
+            ret = this->pimp->run(false, static_cast<uint32_t>(-ctrl_val));
         else
-            ret = MotorBase<int32_t, T_imp>::imp.run(true, static_cast<uint32_t>(ctrl_val));
+            ret = this->pimp->run(true, static_cast<uint32_t>(ctrl_val));
         
         return ret;
     }
@@ -23,7 +23,7 @@ namespace Motor {
     bool PwmDcMotor<T_imp>::feedback()
     {
         bool ret(true);
-        int32_t ecd_delta(MotorBase<int32_t, T_imp>::imp.fbk());
+        int32_t ecd_delta(this->pimp->fbk());
         float speed(0.0f);
         float angle(0.0f);
         

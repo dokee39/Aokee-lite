@@ -14,7 +14,7 @@ namespace Motor
 
     // protected:
 #warning "protected? reference(&)?"
-        T_imp imp; // implement
+        T_imp *pimp; // implement
 
     private:
         

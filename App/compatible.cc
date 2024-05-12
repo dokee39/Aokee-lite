@@ -1,9 +1,14 @@
 #include "compatible.h"
+#include "config.hpp"
 #include "robot_ctrl.hpp"
 
 void *new_RobotCtrl()
 {
-    return static_cast<void *>(new Robot::RobotCtrl());
+    Robot::RobotConfig robot_config(CONFIG::CHASSIS_MOTOR_IMP_LEFT, 
+                                    CONFIG::CHASSIS_MOTOR, 
+                                    CONFIG::CHASSIS_MOTOR_IMP_RIGHT, 
+                                    CONFIG::CHASSIS_MOTOR);
+    return static_cast<void *>(new Robot::RobotCtrl(robot_config));
 }
 
 
