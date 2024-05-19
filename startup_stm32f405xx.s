@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * @file      startup_stm32f407xx.s
+  * @file      startup_stm32f405xx.s
   * @author    MCD Application Team
-  * @brief     STM32F407xx Devices vector table for GCC based toolchains. 
+  * @brief     STM32F405xx Devices vector table for GCC based toolchains. 
   *            This module performs:
   *                - Set the initial SP
   *                - Set the initial PC == Reset_Handler,
@@ -93,7 +93,7 @@ FillZerobss:
 LoopFillZerobss:
   cmp r2, r4
   bcc FillZerobss
-
+ 
 /* Call static constructors */
     bl __libc_init_array
 /* Call the application's entry point.*/
@@ -123,10 +123,12 @@ Infinite_Loop:
    .section  .isr_vector,"a",%progbits
   .type  g_pfnVectors, %object
     
-    
+
+	
 g_pfnVectors:
   .word  _estack
   .word  Reset_Handler
+
   .word  NMI_Handler
   .word  HardFault_Handler
   .word  MemManage_Handler
@@ -204,8 +206,8 @@ g_pfnVectors:
   .word     DMA2_Stream2_IRQHandler           /* DMA2 Stream 2                */                   
   .word     DMA2_Stream3_IRQHandler           /* DMA2 Stream 3                */                   
   .word     DMA2_Stream4_IRQHandler           /* DMA2 Stream 4                */                   
-  .word     ETH_IRQHandler                    /* Ethernet                     */                   
-  .word     ETH_WKUP_IRQHandler               /* Ethernet Wakeup through EXTI line */                     
+  .word     0                                 /* Reserved                     */                   
+  .word     0                                 /* Reserved                     */                     
   .word     CAN2_TX_IRQHandler                /* CAN2 TX                      */                          
   .word     CAN2_RX0_IRQHandler               /* CAN2 RX0                     */                          
   .word     CAN2_RX1_IRQHandler               /* CAN2 RX1                     */                          
@@ -221,12 +223,12 @@ g_pfnVectors:
   .word     OTG_HS_EP1_IN_IRQHandler          /* USB OTG HS End Point 1 In    */                   
   .word     OTG_HS_WKUP_IRQHandler            /* USB OTG HS Wakeup through EXTI */                         
   .word     OTG_HS_IRQHandler                 /* USB OTG HS                   */                   
-  .word     DCMI_IRQHandler                   /* DCMI                         */                   
-  .word     0                                 /* CRYP crypto                  */                   
+  .word     0                                 /* Reserved                         */                   
+  .word     0                                 /* Reserved                  */                   
   .word     HASH_RNG_IRQHandler               /* Hash and Rng                 */
   .word     FPU_IRQHandler                    /* FPU                          */
-                         
-                         
+
+                      
 
   .size  g_pfnVectors, .-g_pfnVectors
 
@@ -447,12 +449,6 @@ g_pfnVectors:
    .weak      DMA2_Stream4_IRQHandler               
    .thumb_set DMA2_Stream4_IRQHandler,Default_Handler
             
-   .weak      ETH_IRQHandler      
-   .thumb_set ETH_IRQHandler,Default_Handler
-                  
-   .weak      ETH_WKUP_IRQHandler                  
-   .thumb_set ETH_WKUP_IRQHandler,Default_Handler
-            
    .weak      CAN2_TX_IRQHandler   
    .thumb_set CAN2_TX_IRQHandler,Default_Handler
                            
@@ -497,10 +493,7 @@ g_pfnVectors:
             
    .weak      OTG_HS_IRQHandler      
    .thumb_set OTG_HS_IRQHandler,Default_Handler
-                  
-   .weak      DCMI_IRQHandler            
-   .thumb_set DCMI_IRQHandler,Default_Handler
-                                   
+                                                     
    .weak      HASH_RNG_IRQHandler                  
    .thumb_set HASH_RNG_IRQHandler,Default_Handler   
 

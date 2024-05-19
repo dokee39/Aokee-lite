@@ -25,11 +25,11 @@ FLOAT-ABI := -mfloat-abi=hard
 AS_DEFINES :=
 C_DEFINES := \
 USE_HAL_DRIVER \
-STM32F407xx \
+STM32F405xx \
 ARM_MATH_CM4
 
 # link script
-LDSCRIPT := STM32F407VGTx_FLASH.ld
+LDSCRIPT := STM32F405RGTx_FLASH.ld
 LIBS := 
 # figure out compiler settings
 AS := $(GCC_PREFIX)gcc -x assembler-with-cpp
@@ -57,7 +57,7 @@ Drivers/CMSIS/Include \
 Drivers/CMSIS/Device/ST/STM32F4xx/Include 
 
 ASM_SRCS := \
-startup_stm32f407xx.s
+startup_stm32f405xx.s
 
 # where the output files are stored
 BUILD_DIR := ./build
