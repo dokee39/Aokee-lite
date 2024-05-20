@@ -1,5 +1,10 @@
 #pragma once
 
+#include <memory>
+#include <vector>
+
+#include "motor_base.hpp"
+
 namespace Chassis
 {
     struct Status {
@@ -23,7 +28,7 @@ namespace Chassis
         const Status &get_set() const { return set_; };
 
         virtual void init() = 0;
-        [[noreturn]] void task(void* arg);
+        [[noreturn]] virtual void task(void* arg) final;
 
     protected:
         virtual void update_state() = 0;
@@ -31,7 +36,11 @@ namespace Chassis
         virtual void ctrl() = 0;
         virtual void task_delay_until() const = 0;
 
+        std::vector<std::shared_ptr<Motor::MotorBase>> motors;
+
     private:
+        ChassisBase(const ChassisBase &) = delete; // uncopyable
+        ChassisBase &operator=(const ChassisBase &) = delete; // uncopyable
         Status ref_;
         Status set_;
 

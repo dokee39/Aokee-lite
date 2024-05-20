@@ -2,7 +2,7 @@
 
 namespace Chassis
 {
-    void ChassisBase::task(void *arg)
+    [[noreturn]] void ChassisBase::task(void *arg)
     {
         while (true)
         {

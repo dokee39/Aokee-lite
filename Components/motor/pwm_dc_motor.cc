@@ -4,34 +4,32 @@
 #include "user_lib_cpp.hpp"
 
 namespace Motor {
-    template <typename T_imp>
-    bool PwmDcMotor<T_imp>::ctrl(int32_t ctrl_val) const
+    bool PwmDcMotor::ctrl()
     {
         bool ret(true);
 
-        UserLib::abs_limit<int32_t>(ctrl_val, CCR_VAL_MAX_);
+        UserLib::abs_limit<float>(pwm_duty, 1.0f);
 
-        if (ctrl_val < 0)
-            ret = this->pimp->run(false, static_cast<uint32_t>(-ctrl_val));
+        if (pwm_duty < 0)
+            ret = imp.run();
         else
-            ret = this->pimp->run(true, static_cast<uint32_t>(ctrl_val));
+            ret = imp.run();
         
         return ret;
     }
 
-    template <typename T_imp>
-    bool PwmDcMotor<T_imp>::feedback()
+    bool PwmDcMotor::feedback()
     {
         bool ret(true);
-        int32_t ecd_delta(this->pimp->fbk());
+        int32_t ecd_delta(imp.fbk());
         float speed(0.0f);
         float angle(0.0f);
         
-        angle = MotorBase<int32_t, T_imp>::get_angle() + ecd_delta * PULSE_TO_RAD_RATIO_;
+        angle = get_angle() + ecd_delta * PULSE_TO_RAD_RATIO;
         angle = UserLib::rad_format(angle);
-        speed = ecd_delta * PULSE_TO_RAD_RATIO_ / FBK_PERIOD_ * 1000.0f;
+        speed = ecd_delta * PULSE_TO_RAD_RATIO / FBK_PERIOD * 1000.0f;
 
-        MotorBase<int32_t, T_imp>::update(speed, angle);
+        update(speed, angle);
 
         return ret;
     }

@@ -2,59 +2,65 @@
 
 namespace Motor
 {
-    // base class : motor
-    template <typename T, typename T_imp>
-    class MotorBase
-    {
-    public:
-        explicit MotorBase() = default;
-        virtual ~MotorBase() = default;
-
-        virtual bool ctrl(const T ctrl_val) const = 0;
-
-    // protected:
-#warning "protected? reference(&)?"
-        T_imp *pimp; // implement
-
-    private:
-        
-    };
-
-    // base class : implement for motor (T_imp in MotorBase, designed for compatible with different platform)
+    // base class : implement for motor, and its derived class should inherite a motor class
     class MotorImpBase
     {
     public:
         explicit MotorImpBase() = default;
-        virtual ~MotorImpBase() = default;
+        virtual ~MotorImpBase() = 0;
 
-        // overload the following functions in derived class, do not use them directly
-        void run();
-        void fbk();
+        // override the following functions in derived class
+        virtual bool run() = 0;
+        virtual bool fbk() = 0;
+
+    private:
+        // MotorImpBase(const MotorImpBase &) = delete; // uncopyable
+        MotorImpBase &operator=(const MotorImpBase &) = delete; // uncopyable
 
     };
 
-    // base class : motor with feedback 
-    template <typename T, typename T_imp>
-    class FbkMotorBase : public MotorBase<T, T_imp>
+    // base class : motor
+    class MotorBase
     {
     public:
-        explicit FbkMotorBase() = default;
-        virtual ~FbkMotorBase() = default;
+        explicit MotorBase(MotorImpBase &imp) : imp(imp) {}
+        virtual ~MotorBase() = 0;
 
-        void update(const float speed, const float angle)
-        {
-            speed_ = speed;
-            angle_ = angle;
-        }
-        float get_speed() const { return speed_; }
-        float get_angle() const { return angle_; }
+        virtual bool ctrl() = 0;
 
-        bool feedback();
+    protected:
+        MotorImpBase &imp; // implement, reference to derived MotorImp class itself
 
     private:
-        float speed_ = 0.0f;
-        float angle_ = 0.0f;
-        
+        MotorBase() = delete;
+        MotorBase(const MotorBase &) = delete; // uncopyable
+        MotorBase &operator=(const MotorBase &) = delete; // uncopyable
+
+    };
+
+    // base class : motor with feedback
+    class FbkMotorBase : public MotorBase
+    {
+    public:
+        explicit FbkMotorBase(MotorImpBase &imp) : MotorBase(imp) {}
+        ~FbkMotorBase() override = 0;
+
+        void update(const float speed_, const float angle_)
+        {
+            speed = speed_;
+            angle = angle_;
+        }
+        float get_speed() const { return speed; }
+        float get_angle() const { return angle; }
+
+        virtual bool feedback();
+
+    private:
+        FbkMotorBase() = delete;
+
+        float speed = 0.0f;
+        float angle = 0.0f;
+
     };
 } // namespace Motor 
 

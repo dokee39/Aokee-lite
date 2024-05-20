@@ -27,6 +27,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "FreeRTOS.h"
+#include "task.h"
+#include "compatible.h"
 
 /* USER CODE END Includes */
 
@@ -48,6 +51,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+static TaskHandle_t xCreatedImuTask;
 
 /* USER CODE END PV */
 
@@ -104,7 +108,11 @@ int main(void)
   MX_UART4_Init();
   MX_UART5_Init();
   /* USER CODE BEGIN 2 */
+    void *robot = new_RobotCtrl();
+    xTaskCreate(imu_task, "imu task", configMINIMAL_STACK_SIZE * 8, robot, (tskIDLE_PRIORITY + 6), &xCreatedImuTask);
 
+  /* Start scheduler */
+    vTaskStartScheduler();
   /* USER CODE END 2 */
 
   /* Infinite loop */

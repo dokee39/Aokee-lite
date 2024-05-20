@@ -8,31 +8,29 @@ namespace Motor {
 
     struct PwmDcMotorConfig
     {
-        const uint32_t CCR_VAL_MAX_;
-        const uint32_t FBK_PERIOD_;
-        const float PULSE_TO_RAD_RATIO_;
+        const uint32_t FBK_PERIOD; // in ms
+        const float PULSE_TO_RAD_RATIO;
     };
 
     // derived class : DC motor (controlled by PWM & feedback via pulse encoder)
-    template <typename T_imp>
-    class PwmDcMotor : public PwmDcMotorConfig, public FbkMotorBase<int32_t, T_imp> 
+    class PwmDcMotor : public PwmDcMotorConfig, public FbkMotorBase
     {
     public:
-        explicit PwmDcMotor(const PwmDcMotorConfig &config, T_imp &imp)
-            : PwmDcMotorConfig(config)
-        {
-            this->pimp = &imp;
-        }
-        ~PwmDcMotor() = default;
+        explicit PwmDcMotor(const PwmDcMotorConfig &config, MotorImpBase &imp)
+            : PwmDcMotorConfig(config),
+              FbkMotorBase(imp)
+        {}
+        ~PwmDcMotor() override = default;
 
-        bool ctrl(const int32_t ctrl_val) const;
-        bool feedback();
+        bool ctrl() override;
+        bool feedback() override;
         
+    protected:
+        float pwm_duty = 0.0f; // control value, 0 ~ 1
+        int32_t ecd_delta = 0;
+
     private:
-        PwmDcMotor() = delete; // must init
-        // PwmDcMotor(const PwmDcMotor &) = delete; // cannot copy
-        PwmDcMotor &operator=(const PwmDcMotor &) = delete; // cannot copy
-        
+
     };
 }
 
