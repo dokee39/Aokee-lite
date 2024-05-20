@@ -4,9 +4,7 @@
 extern "C" {
 #endif
 
-extern void *new_RobotCtrl();
-
-extern void imu_task(void *arg);
+extern void main_entry(void);
 
 #ifdef __cplusplus
 } // extern "C"

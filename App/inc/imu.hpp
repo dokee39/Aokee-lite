@@ -19,10 +19,11 @@ namespace Dev
         float temp = 0.0f;
 
         [[noreturn]] void task(void *arg);
-        void calc_angle();
 
     private:
         TickType_t xLastWakeTime;
+
+        void calc_angle();
 
     };
 }

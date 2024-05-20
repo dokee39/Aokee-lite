@@ -31,16 +31,17 @@ namespace Chassis
         [[noreturn]] virtual void task(void* arg) final;
 
     protected:
-        virtual void update_state() = 0;
-        virtual void ctrl_val_calc() = 0;
-        virtual void ctrl() = 0;
-        virtual void task_delay_until() const = 0;
-
         std::vector<std::shared_ptr<Motor::MotorBase>> motors;
 
     private:
         ChassisBase(const ChassisBase &) = delete; // uncopyable
         ChassisBase &operator=(const ChassisBase &) = delete; // uncopyable
+
+        virtual void update_state() = 0;
+        virtual void ctrl_val_calc() = 0;
+        virtual void ctrl() = 0;
+        virtual void task_delay_until() const = 0;
+
         Status ref_;
         Status set_;
 

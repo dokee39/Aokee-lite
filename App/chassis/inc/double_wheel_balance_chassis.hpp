@@ -12,7 +12,7 @@ namespace Chassis
     public:
         explicit DoubleWheelBalanceChassis(const std::shared_ptr<Motor::MotorBase> motor_left, 
                                            const std::shared_ptr<Motor::MotorBase> motor_right);
-        ~DoubleWheelBalanceChassis() override = default;
+        ~DoubleWheelBalanceChassis() = default;
 
         void init() override;
 

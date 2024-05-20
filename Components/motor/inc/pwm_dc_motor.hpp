@@ -22,14 +22,14 @@ namespace Motor {
         {}
         ~PwmDcMotor() override = default;
 
-        bool ctrl() override;
-        bool feedback() override;
         
     protected:
         float pwm_duty = 0.0f; // control value, 0 ~ 1
         int32_t ecd_delta = 0;
 
     private:
+        bool ctrl() override;
+        bool feedback() override;
 
     };
 }

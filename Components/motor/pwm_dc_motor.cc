@@ -1,6 +1,6 @@
-#include "pwm_dc_motor.hpp"
 #include <cstdint>
 
+#include "pwm_dc_motor.hpp"
 #include "user_lib_cpp.hpp"
 
 namespace Motor {
