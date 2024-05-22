@@ -9,7 +9,6 @@ namespace Chassis
         motors.emplace_back(motor_right);
     }
 
-
     void DoubleWheelBalanceChassis::init()
     {
         

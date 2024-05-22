@@ -7,7 +7,7 @@ namespace Motor
         : PwmDcMotorImpConfig(config_imp),
           PwmDcMotor(config_motor, *this)
     {
-#warning "not restart check"
+        // timer would not restart since there ia a judge inside HAL driver
         HAL_TIM_PWM_Start(&htim_pwm, TIM_PWM_CHANNEL_A);
         HAL_TIM_PWM_Start(&htim_pwm, TIM_PWM_CHANNEL_B);
         HAL_TIM_Encoder_Start(&htim_ecd, TIM_ECD_CHANNEL_A);
