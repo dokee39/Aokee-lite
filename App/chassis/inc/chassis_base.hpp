@@ -5,48 +5,50 @@
 
 #include "motor_base.hpp"
 
-namespace Chassis
-{
-    struct Status {
-        explicit Status(float vx, float vy, float wz) :vx_(vx),vy_(vy),wz_(wz) {}
-        explicit Status() = default;
+namespace Chassis {
+struct Status {
+    explicit Status(float vx, float vy, float wz): vx_(vx), vy_(vy), wz_(wz) {}
+    explicit Status() = default;
 
-        float vx_ = 0.0f;
-        float vy_ = 0.0f;
-        float wz_ = 0.0f;
+    float vx_ = 0.0f;
+    float vy_ = 0.0f;
+    float wz_ = 0.0f;
+};
+
+class ChassisBase {
+public:
+    explicit ChassisBase() = default;
+    virtual ~ChassisBase() = default;
+
+    void update_ref(Status& ref) {
+        ref_ = ref;
+    }
+    void update_set(Status& set) {
+        set_ = set;
+    }
+    const Status& get_ref() const {
+        return ref_;
+    };
+    const Status& get_set() const {
+        return set_;
     };
 
-    class ChassisBase
-    {
-    public:
-        explicit ChassisBase() = default;
-        virtual ~ChassisBase() = default;
+    virtual void init() = 0;
+    [[noreturn]] virtual void task(void* arg) final;
 
-        void update_ref(Status &ref) { ref_ = ref; }
-        void update_set(Status &set) { set_ = set; }
-        const Status &get_ref() const { return ref_; };
-        const Status &get_set() const { return set_; };
+protected:
+    std::vector<std::shared_ptr<Motor::MotorBase>> motors;
 
-        virtual void init() = 0;
-        [[noreturn]] virtual void task(void* arg) final;
+private:
+    ChassisBase(const ChassisBase&) = delete; // uncopyable
+    ChassisBase& operator=(const ChassisBase&) = delete; // uncopyable
 
-    protected:
-        std::vector<std::shared_ptr<Motor::MotorBase>> motors;
+    virtual void update_state() = 0;
+    virtual void ctrl_val_calc() = 0;
+    virtual void ctrl() = 0;
+    virtual void task_delay_until() const = 0;
 
-    private:
-        ChassisBase(const ChassisBase &) = delete; // uncopyable
-        ChassisBase &operator=(const ChassisBase &) = delete; // uncopyable
-
-        virtual void update_state() = 0;
-        virtual void ctrl_val_calc() = 0;
-        virtual void ctrl() = 0;
-        virtual void task_delay_until() const = 0;
-
-        Status ref_;
-        Status set_;
-
-    };
-}
-
-
-
+    Status ref_;
+    Status set_;
+};
+} // namespace Chassis

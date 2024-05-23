@@ -3,15 +3,10 @@
 
 #include "gpio.h"
 
-#define BUTTON_NOT_PRESSED      0
-#define BUTTON_PRESSED          1
+#define BUTTON_NOT_PRESSED 0
+#define BUTTON_PRESSED 1
 
-typedef enum
-{
-    NO_DETECT,
-    DETECTING,
-    DETECTED
-}KeyState;
+typedef enum { NO_DETECT, DETECTING, DETECTED } KeyState;
 
 int8_t BSP_UserKey_Detect(void);
 #endif

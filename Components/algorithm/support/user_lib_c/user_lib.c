@@ -1,6 +1,5 @@
 #include "user_lib.h"
 
-
 /**
   * @brief          斜波函数初始化
   * @author         RM
@@ -10,8 +9,7 @@
   * @param[in]      最小值
   * @retval         返回空
   */
-void ramp_init(ramp_function_source_t *ramp_source_type, float frame_period, float max, float min)
-{
+void ramp_init(ramp_function_source_t* ramp_source_type, float frame_period, float max, float min) {
     ramp_source_type->frame_period = frame_period;
     ramp_source_type->max_value = max;
     ramp_source_type->min_value = min;
@@ -27,16 +25,12 @@ void ramp_init(ramp_function_source_t *ramp_source_type, float frame_period, flo
   * @param[in]      滤波参数
   * @retval         返回空
   */
-void ramp_calc(ramp_function_source_t *ramp_source_type, float input)
-{
+void ramp_calc(ramp_function_source_t* ramp_source_type, float input) {
     ramp_source_type->input = input;
     ramp_source_type->out += ramp_source_type->input * ramp_source_type->frame_period;
-    if (ramp_source_type->out > ramp_source_type->max_value)
-    {
+    if (ramp_source_type->out > ramp_source_type->max_value) {
         ramp_source_type->out = ramp_source_type->max_value;
-    }
-    else if (ramp_source_type->out < ramp_source_type->min_value)
-    {
+    } else if (ramp_source_type->out < ramp_source_type->min_value) {
         ramp_source_type->out = ramp_source_type->min_value;
     }
 }
@@ -48,8 +42,11 @@ void ramp_calc(ramp_function_source_t *ramp_source_type, float input)
   * @param[in]      滤波参数
   * @retval         返回空
   */
-void first_order_filter_init(first_order_filter_type_t *first_order_filter_type, float frame_period, const float num[1])
-{
+void first_order_filter_init(
+    first_order_filter_type_t* first_order_filter_type,
+    float frame_period,
+    const float num[1]
+) {
     first_order_filter_type->frame_period = frame_period;
     first_order_filter_type->num[0] = num[0];
     first_order_filter_type->input = 0.0f;
@@ -63,62 +60,52 @@ void first_order_filter_init(first_order_filter_type_t *first_order_filter_type,
   * @param[in]      间隔的时间，单位 s
   * @retval         返回空
   */
-void first_order_filter_cali(first_order_filter_type_t *first_order_filter_type, float input)
-{
+void first_order_filter_cali(first_order_filter_type_t* first_order_filter_type, float input) {
     first_order_filter_type->input = input;
-    first_order_filter_type->out =
-        first_order_filter_type->num[0] / (first_order_filter_type->num[0] + first_order_filter_type->frame_period) * first_order_filter_type->out + first_order_filter_type->frame_period / (first_order_filter_type->num[0] + first_order_filter_type->frame_period) * first_order_filter_type->input;
+    first_order_filter_type->out = first_order_filter_type->num[0]
+            / (first_order_filter_type->num[0] + first_order_filter_type->frame_period)
+            * first_order_filter_type->out
+        + first_order_filter_type->frame_period
+            / (first_order_filter_type->num[0] + first_order_filter_type->frame_period)
+            * first_order_filter_type->input;
 }
 
 //绝对限制
-void abs_limit(float *num, float limit)
-{
-    if (*num > limit)
-    {
+void abs_limit(float* num, float limit) {
+    if (*num > limit) {
         *num = limit;
-    }
-    else if (*num < -limit)
-    {
+    } else if (*num < -limit) {
         *num = -limit;
     }
 }
 
 //判断符号位
-float sign(float value)
-{
-    if (value >= 0.0f)
-    {
+float sign(float value) {
+    if (value >= 0.0f) {
         return 1.0f;
-    }
-    else
-    {
+    } else {
         return -1.0f;
     }
 }
 
 //浮点死区
-float float_deadline(float Value, float minValue, float maxValue)
-{
-    if (Value < maxValue && Value > minValue)
-    {
+float float_deadline(float Value, float minValue, float maxValue) {
+    if (Value < maxValue && Value > minValue) {
         Value = 0.0f;
     }
     return Value;
 }
 
 //int26死区
-int16_t int16_deadline(int16_t Value, int16_t minValue, int16_t maxValue)
-{
-    if (Value < maxValue && Value > minValue)
-    {
+int16_t int16_deadline(int16_t Value, int16_t minValue, int16_t maxValue) {
+    if (Value < maxValue && Value > minValue) {
         Value = 0;
     }
     return Value;
 }
 
 //限幅函数
-float float_constrain(float Value, float minValue, float maxValue)
-{
+float float_constrain(float Value, float minValue, float maxValue) {
     if (Value < minValue)
         return minValue;
     else if (Value > maxValue)
@@ -128,8 +115,7 @@ float float_constrain(float Value, float minValue, float maxValue)
 }
 
 //限幅函数
-int16_t int16_constrain(int16_t Value, int16_t minValue, int16_t maxValue)
-{
+int16_t int16_constrain(int16_t Value, int16_t minValue, int16_t maxValue) {
     if (Value < minValue)
         return minValue;
     else if (Value > maxValue)
@@ -139,26 +125,19 @@ int16_t int16_constrain(int16_t Value, int16_t minValue, int16_t maxValue)
 }
 
 //循环限幅函数
-float loop_float_constrain(float Input, float minValue, float maxValue)
-{
-    if (maxValue < minValue)
-    {
+float loop_float_constrain(float Input, float minValue, float maxValue) {
+    if (maxValue < minValue) {
         return Input;
     }
 
-    if (Input > maxValue)
-    {
+    if (Input > maxValue) {
         float len = maxValue - minValue;
-        while (Input > maxValue)
-        {
+        while (Input > maxValue) {
             Input -= len;
         }
-    }
-    else if (Input < minValue)
-    {
+    } else if (Input < minValue) {
         float len = maxValue - minValue;
-        while (Input < minValue)
-        {
+        while (Input < minValue) {
             Input += len;
         }
     }
@@ -168,7 +147,6 @@ float loop_float_constrain(float Input, float minValue, float maxValue)
 //弧度格式化为-PI~PI
 
 //角度格式化为-180~180
-float theta_format(float Ang)
-{
+float theta_format(float Ang) {
     return loop_float_constrain(Ang, -180.0f, 180.0f);
 }

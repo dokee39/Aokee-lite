@@ -5,8 +5,8 @@
 extern "C" {
 #endif
 
-#include "stdint.h"
 #include "main.h"
+#include "stdint.h"
 
 #define BMI088_TEMP_FACTOR 0.125f
 #define BMI088_TEMP_OFFSET 23.0f
@@ -20,7 +20,6 @@ extern "C" {
 
 #define BMI088_LONG_DELAY_TIME 80
 #define BMI088_COM_WAIT_SENSOR_TIME 150
-
 
 #define BMI088_ACCEL_IIC_ADDRESSE (0x18 << 1)
 #define BMI088_GYRO_IIC_ADDRESSE (0x68 << 1)
@@ -36,12 +35,10 @@ extern "C" {
 //#define BMI088_GYRO_RANGE_250
 //#define BMI088_GYRO_RANGE_125
 
-
 #define BMI088_ACCEL_3G_SEN 0.0008974358974f
 #define BMI088_ACCEL_6G_SEN 0.00179443359375f
 #define BMI088_ACCEL_12G_SEN 0.0035888671875f
 #define BMI088_ACCEL_24G_SEN 0.007177734375f
-
 
 #define BMI088_GYRO_2000_SEN 0.00106526443603169529841533860381f
 #define BMI088_GYRO_1000_SEN 0.00053263221801584764920766930190693f
@@ -49,17 +46,14 @@ extern "C" {
 #define BMI088_GYRO_250_SEN 0.00013315805450396191230191732547673f
 #define BMI088_GYRO_125_SEN 0.000066579027251980956150958662738366f
 
-
-typedef struct BMI088_RAW_DATA
-{
+typedef struct BMI088_RAW_DATA {
     uint8_t status;
     int16_t accel[3];
     int16_t temp;
     int16_t gyro[3];
 } __packed bmi088_raw_data_t;
 
-typedef struct BMI088_REAL_DATA
-{
+typedef struct BMI088_REAL_DATA {
     uint8_t status;
     float accel[3];
     float temp;
@@ -67,9 +61,7 @@ typedef struct BMI088_REAL_DATA
     float time;
 } bmi088_real_data_t;
 
-
-enum
-{
+enum {
     BMI088_NO_ERROR = 0x00,
     BMI088_ACC_PWR_CTRL_ERROR = 0x01,
     BMI088_ACC_PWR_CONF_ERROR = 0x02,
@@ -94,7 +86,7 @@ extern uint8_t BMI088_init(void);
 extern uint8_t bmi088_accel_init(void);
 extern uint8_t bmi088_gyro_init(void);
 
-extern void BMI088_read(float gyro[3], float accel[3], float *temperate);
+extern void BMI088_read(float gyro[3], float accel[3], float* temperate);
 
 #ifdef __cplusplus
 } // extern "C"

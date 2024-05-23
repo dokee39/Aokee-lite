@@ -12,8 +12,8 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
-#include "arm_math.h"
 #include "stm32f4xx.h"
+#include "arm_math.h"
 
 // Matrix class
 template<int _rows, int _cols>
