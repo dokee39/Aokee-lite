@@ -43,6 +43,11 @@ public:
         return _cols;
     }
 
+    // update values
+    void update(float data[_rows * _cols]) {
+        memcpy(this->data_, data, _rows * _cols * sizeof(float));
+    }
+
     // Element
     float* operator[](const int& row) {
         return &this->data_[row * _cols];
@@ -84,6 +89,14 @@ public:
         Matrixf<_rows, _cols> res;
         arm_mat_sub_f32(&this->arm_mat_, &mat.arm_mat_, &res.arm_mat_);
         return res;
+    }
+    Matrixf<_rows, _cols> operator-() const {
+        float data_n[_rows * _cols];
+        for (int i = 0; i < _rows * _cols; i++)
+        {
+            data_n[i] = -this->data_[i];
+        }
+        return Matrixf<_rows, _cols>(data_n);
     }
     Matrixf<_rows, _cols> operator*(const float& val) {
         // arm_status s;

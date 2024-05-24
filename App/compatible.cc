@@ -29,7 +29,8 @@ void main_entry(void) {
     std::shared_ptr<Chassis::DoubleWheelBalanceChassis> chassis(
         std::make_shared<Chassis::DoubleWheelBalanceChassis>(
             std::static_pointer_cast<Motor::MotorBase>(chassis_motor_left),
-            std::static_pointer_cast<Motor::MotorBase>(chassis_motor_right)
+            std::static_pointer_cast<Motor::MotorBase>(chassis_motor_right),
+            CONFIG::DOUBLE_WHEEL_BALANCE_CHASSIS_CONFIG
         )
     );
 
@@ -58,10 +59,10 @@ void main_entry(void) {
 
 static void imu_task(void* arg) {
     Robot::RobotCtrl& robot(*static_cast<Robot::RobotCtrl*>(arg));
-    std::static_pointer_cast<Chassis::DoubleWheelBalanceChassis>(robot.chassis)->imu.task(NULL);
+    std::static_pointer_cast<Chassis::DoubleWheelBalanceChassis>(robot.chassis)->imu.task(nullptr);
 }
 
 static void chassis_task(void* arg) {
     Robot::RobotCtrl& robot(*static_cast<Robot::RobotCtrl*>(arg));
-    robot.chassis->task(NULL);
+    robot.chassis->task(nullptr);
 }

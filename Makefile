@@ -30,7 +30,7 @@ ARM_MATH_CM4
 
 # link script
 LDSCRIPT := STM32F405RGTx_FLASH.ld
-LIBS := 
+LIBS := -larm_cortexM4lf_math
 # figure out compiler settings
 AS := $(GCC_PREFIX)gcc -x assembler-with-cpp
 CC := $(GCC_PREFIX)gcc

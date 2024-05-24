@@ -46,7 +46,7 @@ private:
     virtual void update_state() = 0;
     virtual void ctrl_val_calc() = 0;
     virtual void ctrl() = 0;
-    virtual void task_delay_until() const = 0;
+    virtual void task_delay_until() = 0;
 
     Status ref_;
     Status set_;

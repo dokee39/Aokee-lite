@@ -1,5 +1,7 @@
 #pragma once
 
+#include "double_wheel_balance_chassis.hpp"
+#include "matrix.h"
 #include "pwm_dc_motor_imp.hpp"
 #include "robot_ctrl.hpp"
 #include "tim.h"
@@ -31,5 +33,10 @@ const typename Motor::PwmDcMotorImpConfig CHASSIS_MOTOR_IMP_RIGHT {
 
 const typename Motor::PwmDcMotorConfig CHASSIS_MOTOR { .FBK_PERIOD = 1,
                                                        .PULSE_TO_RAD_RATIO = 3.1415926f };
+
+const typename Lqr::LqrConfig<6, 2> DOUBLE_WHEEL_BALANCE_CHASSIS_CONFIG {
+    .K = Matrixf<2, 6>((float[12]) { 0.0f }),
+    .Umax = Matrixf<1, 2>((float[2]) { 0.0f }),
+};
 
 } // namespace CONFIG
