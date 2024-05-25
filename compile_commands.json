@@ -464,15 +464,15 @@
    "-ffunction-sections",
    "-MMD",
    "-MP",
-   "-MFbuild/App/remote_control.c.d",
+   "-MFbuild/App/remote_controller.c.d",
    "-g",
    "-gdwarf-3",
-   "-Wa,-a,-ad,-alms=./build/remote_control.c.lst",
-   "App/remote_control.c",
+   "-Wa,-a,-ad,-alms=./build/remote_controller.c.lst",
+   "App/remote_controller.c",
    "-o",
-   "build/App/remote_control.c.o"
+   "build/App/remote_controller.c.o"
   ],
-  "file": "App/remote_control.c"
+  "file": "App/remote_controller.c"
  },
  {
   "directory": "/mnt/ttk/projects/Aokee-lite",

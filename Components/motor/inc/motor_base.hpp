@@ -22,6 +22,13 @@ public:
     explicit MotorBase(MotorImpBase& imp): imp(imp) {}
     virtual ~MotorBase() = default;
 
+    virtual bool ctrl() = 0;
+
+    // for compatibility.
+    // if there are additional values for control, 
+    // please set them using a member function of derived class in other places like robot.update_set_task() 
+    float ctrl_val = 0.0f;
+
 protected:
     MotorImpBase& imp; // implement, reference to derived MotorImp class itself
 
@@ -30,7 +37,6 @@ private:
     MotorBase(const MotorBase&) = delete; // uncopyable
     MotorBase& operator=(const MotorBase&) = delete; // uncopyable
 
-    virtual bool ctrl() = 0;
 };
 
 // base class : motor with feedback
@@ -49,11 +55,10 @@ public:
     float get_angle() const {
         return angle;
     }
+    virtual bool feedback() = 0;
 
 private:
     FbkMotorBase() = delete;
-
-    virtual bool feedback() = 0;
 
     float speed = 0.0f;
     float angle = 0.0f;

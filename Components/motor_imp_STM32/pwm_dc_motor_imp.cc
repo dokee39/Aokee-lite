@@ -18,19 +18,19 @@ PwmDcMotorImp::PwmDcMotorImp(
 bool PwmDcMotorImp::run() {
     bool ret(true);
 
-    if (pwm_duty < 0) {
+    if (ctrl_val < 0) {
         __HAL_TIM_SetCompare(&htim_pwm, TIM_PWM_CHANNEL_B, 0);
         __HAL_TIM_SetCompare(
             &htim_pwm,
             TIM_PWM_CHANNEL_A,
-            static_cast<uint32_t>(-pwm_duty * CCR_VAL_MAX)
+            static_cast<uint32_t>(-ctrl_val * CCR_VAL_MAX)
         );
     } else {
         __HAL_TIM_SetCompare(&htim_pwm, TIM_PWM_CHANNEL_A, 0);
         __HAL_TIM_SetCompare(
             &htim_pwm,
             TIM_PWM_CHANNEL_B,
-            static_cast<uint32_t>(pwm_duty * CCR_VAL_MAX)
+            static_cast<uint32_t>(ctrl_val * CCR_VAL_MAX)
         );
     }
 

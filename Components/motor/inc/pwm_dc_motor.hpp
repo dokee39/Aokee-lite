@@ -19,12 +19,13 @@ public:
         FbkMotorBase(imp) {}
     ~PwmDcMotor() override = default;
 
-protected:
-    float pwm_duty = 0.0f; // control value, 0 ~ 1
-    int32_t ecd_delta = 0;
-
-private:
     bool ctrl() override;
     bool feedback() override;
+
+    // contrl_val here is pwm_duty
+
+protected:
+    int32_t ecd_delta = 0;
+
 };
 } // namespace Motor

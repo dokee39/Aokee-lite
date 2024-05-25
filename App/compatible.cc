@@ -10,27 +10,32 @@
 
 static void imu_task(void* arg);
 static void chassis_task(void* arg);
+static void update_set_task(void* arg);
+
 
 void main_entry(void) {
     TaskHandle_t xCreatedImuTask;
     TaskHandle_t xCreatedChassisTask;
+    TaskHandle_t xCreatedUpdateSetTask;
 
-    std::shared_ptr<Motor::PwmDcMotorImp> chassis_motor_left(std::make_shared<Motor::PwmDcMotorImp>(
-        CONFIG::CHASSIS_MOTOR_IMP_LEFT,
-        CONFIG::CHASSIS_MOTOR
-    ));
+    std::shared_ptr<Motor::PwmDcMotorImp> chassis_motor_left(
+        std::make_shared<Motor::PwmDcMotorImp>(
+            Config::Chassis::MOTOR_IMP_LEFT,
+            Config::Chassis::MOTOR
+        )
+    );
     std::shared_ptr<Motor::PwmDcMotorImp> chassis_motor_right(
         std::make_shared<Motor::PwmDcMotorImp>(
-            CONFIG::CHASSIS_MOTOR_IMP_RIGHT,
-            CONFIG::CHASSIS_MOTOR
+            Config::Chassis::MOTOR_IMP_RIGHT,
+            Config::Chassis::MOTOR
         )
     );
 
     std::shared_ptr<Chassis::DoubleWheelBalanceChassis> chassis(
         std::make_shared<Chassis::DoubleWheelBalanceChassis>(
-            std::static_pointer_cast<Motor::MotorBase>(chassis_motor_left),
-            std::static_pointer_cast<Motor::MotorBase>(chassis_motor_right),
-            CONFIG::DOUBLE_WHEEL_BALANCE_CHASSIS_CONFIG
+            std::static_pointer_cast<Motor::FbkMotorBase>(chassis_motor_left),
+            std::static_pointer_cast<Motor::FbkMotorBase>(chassis_motor_right),
+            Config::Chassis::DOUBLE_WHEEL_BALANCE_CHASSIS_LQR
         )
     );
 
@@ -52,6 +57,14 @@ void main_entry(void) {
         (tskIDLE_PRIORITY + 6),
         &xCreatedChassisTask
     );
+    xTaskCreate(
+        update_set_task,
+        "update set task",
+        configMINIMAL_STACK_SIZE * 8,
+        static_cast<void*>(&robot),
+        (tskIDLE_PRIORITY + 6),
+        &xCreatedUpdateSetTask
+    );
 
     /* Start scheduler */
     vTaskStartScheduler();
@@ -65,4 +78,9 @@ static void imu_task(void* arg) {
 static void chassis_task(void* arg) {
     Robot::RobotCtrl& robot(*static_cast<Robot::RobotCtrl*>(arg));
     robot.chassis->task(nullptr);
+}
+
+static void update_set_task(void* arg) {
+    Robot::RobotCtrl& robot(*static_cast<Robot::RobotCtrl*>(arg));
+    robot.update_set_task(nullptr);
 }

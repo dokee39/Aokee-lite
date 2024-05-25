@@ -7,9 +7,9 @@ namespace Motor {
 bool PwmDcMotor::ctrl() {
     bool ret(true);
 
-    UserLib::abs_limit<float>(pwm_duty, 1.0f);
+    UserLib::abs_limit<float>(ctrl_val, 1.0f);
 
-    if (pwm_duty < 0)
+    if (ctrl_val < 0)
         ret = imp.run();
     else
         ret = imp.run();
@@ -19,9 +19,10 @@ bool PwmDcMotor::ctrl() {
 
 bool PwmDcMotor::feedback() {
     bool ret(true);
-    int32_t ecd_delta(imp.fbk());
     float speed(0.0f);
     float angle(0.0f);
+
+    imp.fbk();
 
     angle = get_angle() + ecd_delta * PULSE_TO_RAD_RATIO;
     angle = UserLib::rad_format(angle);

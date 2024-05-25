@@ -17,6 +17,12 @@ void abs_limit(T& num, const T& limit) {
 }
 
 template<typename T>
+void deadzone_limit(T& num, const T& deadzone) {
+    if (num > -deadzone && num < deadzone)
+        num = 0;
+}
+
+template<typename T>
 void unpack(T& t, const void* const ptr) {
     for (size_t i = 0; i < sizeof(T); i++) {
         *((uint8_t*)&t + i) = *((uint8_t*)ptr + i);

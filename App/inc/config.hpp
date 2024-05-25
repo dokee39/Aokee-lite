@@ -8,8 +8,14 @@
 
 #warning "reorignize config"
 
-namespace CONFIG {
-const typename Motor::PwmDcMotorImpConfig CHASSIS_MOTOR_IMP_LEFT {
+namespace Config {
+namespace Chassis {
+const uint32_t CYCLE_TIME = 1;
+
+const float WHEEL_DIAMETER = 5.0f;
+const float TILT_ANGLE_SET = 0.0f;
+
+const typename Motor::PwmDcMotorImpConfig MOTOR_IMP_LEFT {
     .CCR_TYPE = Motor::PwmDcMotorImpConfig::TIM_INT32,
     .CCR_VAL_MAX = 4294967295,
     .htim_pwm = htim5,
@@ -20,7 +26,7 @@ const typename Motor::PwmDcMotorImpConfig CHASSIS_MOTOR_IMP_LEFT {
     .htim_ecd = htim2,
 };
 
-const typename Motor::PwmDcMotorImpConfig CHASSIS_MOTOR_IMP_RIGHT {
+const typename Motor::PwmDcMotorImpConfig MOTOR_IMP_RIGHT {
     .CCR_TYPE = Motor::PwmDcMotorImpConfig::TIM_INT16,
     .CCR_VAL_MAX = 65535,
     .htim_pwm = htim8,
@@ -31,12 +37,25 @@ const typename Motor::PwmDcMotorImpConfig CHASSIS_MOTOR_IMP_RIGHT {
     .htim_ecd = htim3,
 };
 
-const typename Motor::PwmDcMotorConfig CHASSIS_MOTOR { .FBK_PERIOD = 1,
+const typename Motor::PwmDcMotorConfig MOTOR { .FBK_PERIOD = 1,
                                                        .PULSE_TO_RAD_RATIO = 3.1415926f };
-
-const typename Lqr::LqrConfig<6, 2> DOUBLE_WHEEL_BALANCE_CHASSIS_CONFIG {
+const typename Lqr::LqrConfig<6, 2> DOUBLE_WHEEL_BALANCE_CHASSIS_LQR {
     .K = Matrixf<2, 6>((float[12]) { 0.0f }),
-    .Umax = Matrixf<1, 2>((float[2]) { 0.0f }),
+    .Umax = Matrixf<1, 2>((float[2]) { 1.0f, 1.0f }),
 };
+} // namespace Chassis
 
+namespace RC {
+const float VX_SET_RATIO = 0.0f;
+const float VY_SET_RATIO = 0.0f;
+const float WZ_SET_RATIO = 0.0f;
+
+const int16_t VX_SET_DEADZONE = 0;
+const int16_t VY_SET_DEADZONE = 0;
+const int16_t WZ_SET_DEADZONE = 0;
+
+const float VX_SET_MAX = 0.0f;
+const float VY_SET_MAX = 0.0f;
+const float WZ_SET_MAX = 0.0f;
+} // namespace RC
 } // namespace CONFIG

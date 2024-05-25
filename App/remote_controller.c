@@ -18,7 +18,7 @@
   ****************************(C) COPYRIGHT 2019 DJI****************************
   */
 
-#include "remote_control.h"
+#include "remote_controller.h"
 
 #include "main.h"
 
@@ -28,9 +28,6 @@
 
 //遥控器出错数据上限
 #define RC_CHANNAL_ERROR_VALUE 700
-
-extern UART_HandleTypeDef huart3;
-extern DMA_HandleTypeDef hdma_usart3_rx;
 
 //取正函数
 static int16_t RC_abs(int16_t value);
@@ -130,36 +127,36 @@ void slove_data_error(void) {
 
 //串口中断
 void USART5_IRQHandler(void) {
-    if (huart3.Instance->SR & UART_FLAG_RXNE) //接收到数据
+    if (huart_dbus.Instance->SR & UART_FLAG_RXNE) //接收到数据
     {
-        __HAL_UART_CLEAR_PEFLAG(&huart3);
+        __HAL_UART_CLEAR_PEFLAG(&huart_dbus);
     } else if (USART3->SR & UART_FLAG_IDLE) {
         static uint16_t this_time_rx_len = 0;
 
-        __HAL_UART_CLEAR_PEFLAG(&huart3);
+        __HAL_UART_CLEAR_PEFLAG(&huart_dbus);
 
-        if ((hdma_usart3_rx.Instance->CR & DMA_SxCR_CT) == RESET) {
+        if ((huart_dbus.hdmarx->Instance->CR & DMA_SxCR_CT) == RESET) {
             /* Current memory buffer used is Memory 0 */
 
             //disable DMA
             //失效DMA
-            __HAL_DMA_DISABLE(&hdma_usart3_rx);
+            __HAL_DMA_DISABLE(huart_dbus.hdmarx);
 
             //get receive data length, length = set_data_length - remain_length
             //获取接收数据长度,长度 = 设定长度 - 剩余长度
-            this_time_rx_len = SBUS_RX_BUF_NUM - hdma_usart3_rx.Instance->NDTR;
+            this_time_rx_len = SBUS_RX_BUF_NUM - huart_dbus.hdmarx->Instance->NDTR;
 
             //reset set_data_lenght
             //重新设定数据长度
-            hdma_usart3_rx.Instance->NDTR = SBUS_RX_BUF_NUM;
+            huart_dbus.hdmarx->Instance->NDTR = SBUS_RX_BUF_NUM;
 
             //set memory buffer 1
             //设定缓冲区1
-            hdma_usart3_rx.Instance->CR |= DMA_SxCR_CT;
+            huart_dbus.hdmarx->Instance->CR |= DMA_SxCR_CT;
 
             //enable DMA
             //使能DMA
-            __HAL_DMA_ENABLE(&hdma_usart3_rx);
+            __HAL_DMA_ENABLE(huart_dbus.hdmarx);
 
             if (this_time_rx_len == RC_FRAME_LENGTH) {
                 sbus_to_rc(sbus_rx_buf[0], &rc_ctrl);
@@ -170,15 +167,15 @@ void USART5_IRQHandler(void) {
             /* Current memory buffer used is Memory 1 */
             //disable DMA
             //失效DMA
-            __HAL_DMA_DISABLE(&hdma_usart3_rx);
+            __HAL_DMA_DISABLE(huart_dbus.hdmarx);
 
             //get receive data length, length = set_data_length - remain_length
             //获取接收数据长度,长度 = 设定长度 - 剩余长度
-            this_time_rx_len = SBUS_RX_BUF_NUM - hdma_usart3_rx.Instance->NDTR;
+            this_time_rx_len = SBUS_RX_BUF_NUM - huart_dbus.hdmarx->Instance->NDTR;
 
             //reset set_data_lenght
             //重新设定数据长度
-            hdma_usart3_rx.Instance->NDTR = SBUS_RX_BUF_NUM;
+            huart_dbus.hdmarx->Instance->NDTR = SBUS_RX_BUF_NUM;
 
             //set memory buffer 0
             //设定缓冲区0
@@ -186,7 +183,7 @@ void USART5_IRQHandler(void) {
 
             //enable DMA
             //使能DMA
-            __HAL_DMA_ENABLE(&hdma_usart3_rx);
+            __HAL_DMA_ENABLE(huart_dbus.hdmarx);
 
             if (this_time_rx_len == RC_FRAME_LENGTH) {
                 //处理遥控器数据
