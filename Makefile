@@ -14,7 +14,7 @@ TARGET := $(shell basename "$$PWD")
 DEBUG := 1
 # optimization
 C_OPT := -Og
-CPP_OPT := -Og
+CPP_OPT := -Og -std=c++17
 # set the gcc used
 GCC_PREFIX := arm-none-eabi-
 # add the chip info

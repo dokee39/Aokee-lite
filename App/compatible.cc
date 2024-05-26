@@ -84,3 +84,4 @@ static void update_set_task(void* arg) {
     Robot::RobotCtrl& robot(*static_cast<Robot::RobotCtrl*>(arg));
     robot.update_set_task(nullptr);
 }
+
