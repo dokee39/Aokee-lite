@@ -1,13 +1,13 @@
-#include "pwm_dc_motor_imp.hpp"
 #include <cstdint>
+#include <any>
+
+#include "pwm_dc_motor_impl.hpp"
 
 namespace Motor {
-PwmDcMotorImp::PwmDcMotorImp(
-    const PwmDcMotorImpConfig& config_imp,
-    const PwmDcMotorConfig& config_motor
+PwmDcMotorImpl::PwmDcMotorImpl(
+    const PwmDcMotorImplConfig& config_imp
 ):
-    PwmDcMotorImpConfig(config_imp),
-    PwmDcMotor(config_motor, *this) {
+    PwmDcMotorImplConfig(config_imp) {
     // timer would not restart since there ia a judge inside HAL driver
     HAL_TIM_PWM_Start(&htim_pwm, TIM_PWM_CHANNEL_A);
     HAL_TIM_PWM_Start(&htim_pwm, TIM_PWM_CHANNEL_B);
@@ -15,8 +15,9 @@ PwmDcMotorImp::PwmDcMotorImp(
     HAL_TIM_Encoder_Start(&htim_ecd, TIM_ECD_CHANNEL_B);
 }
 
-bool PwmDcMotorImp::run() {
+bool PwmDcMotorImpl::msg_out(std::any& a_ctrl_val) {
     bool ret(true);
+    float& ctrl_val(std::any_cast<float&>(a_ctrl_val));
 
     if (ctrl_val < 0) {
         __HAL_TIM_SetCompare(&htim_pwm, TIM_PWM_CHANNEL_B, 0);
@@ -37,8 +38,9 @@ bool PwmDcMotorImp::run() {
     return ret;
 }
 
-bool PwmDcMotorImp::fbk() {
+bool PwmDcMotorImpl::msg_in(std::any& a_fbk_val) {
     bool ret(true);
+    float& ecd_delta(std::any_cast<float&>(a_fbk_val));
 
     switch (ECD_TYPE) {
         case TIM_INT16: {

@@ -27,7 +27,7 @@ public:
     Status set;
 
 protected:
-    std::vector<std::shared_ptr<Motor::FbkMotorBase>> motors;
+    std::vector<std::shared_ptr<Motor::MotorBase>> motors;
 
 private:
     ChassisBase(const ChassisBase&) = delete; // uncopyable

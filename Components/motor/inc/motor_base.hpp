@@ -1,49 +1,31 @@
 #pragma once
 
+#include <any>
+
 namespace Motor {
 // base class : implement for motor, and its derived class should inherite a motor class
-class MotorImpBase {
+class MotorImplBase {
 public:
-    explicit MotorImpBase() = default;
-    virtual ~MotorImpBase() = default;
+    explicit MotorImplBase() = default;
+    virtual ~MotorImplBase() = default;
 
     // override the following functions in derived class
-    virtual bool run() = 0;
-    virtual bool fbk() = 0;
+    virtual bool msg_out(std::any& a_ctrl_val) = 0;
+    virtual bool msg_in(std::any& a_fbk_val) = 0;
 
 private:
-    MotorImpBase(const MotorImpBase&) = delete; // uncopyable
-    MotorImpBase& operator=(const MotorImpBase&) = delete; // uncopyable
+    MotorImplBase(const MotorImplBase&) = delete; // uncopyable
+    MotorImplBase& operator=(const MotorImplBase&) = delete; // uncopyable
 };
 
 // base class : motor
 class MotorBase {
 public:
-    explicit MotorBase(MotorImpBase& imp): imp(imp) {}
+    explicit MotorBase(MotorImplBase& impl): impl(impl) {}
     virtual ~MotorBase() = default;
 
     virtual bool ctrl() = 0;
-
-    // for compatibility.
-    // if there are additional values for control, 
-    // please set them using a member function of derived class in other places like robot.update_set_task() 
-    float ctrl_val = 0.0f;
-
-protected:
-    MotorImpBase& imp; // implement, reference to derived MotorImp class itself
-
-private:
-    MotorBase() = delete;
-    MotorBase(const MotorBase&) = delete; // uncopyable
-    MotorBase& operator=(const MotorBase&) = delete; // uncopyable
-
-};
-
-// base class : motor with feedback
-class FbkMotorBase: public MotorBase {
-public:
-    explicit FbkMotorBase(MotorImpBase& imp): MotorBase(imp) {}
-    ~FbkMotorBase() override = default;
+    virtual bool feedback() = 0;
 
     void update(const float speed_, const float angle_) {
         speed = speed_;
@@ -55,10 +37,20 @@ public:
     float get_angle() const {
         return angle;
     }
-    virtual bool feedback() = 0;
+
+    // for compatibility.
+    // if there are additional values for control, 
+    // please set them using a member function of derived class in other places like robot.update_set_task() 
+    float ctrl_val = 0.0f;
+
+protected:
+    MotorImplBase& impl;
 
 private:
-    FbkMotorBase() = delete;
+    explicit MotorBase() = delete;
+    MotorBase(const MotorBase&) = delete; // uncopyable
+    MotorBase& operator=(const MotorBase&) = delete; // uncopyable
+
 
     float speed = 0.0f;
     float angle = 0.0f;

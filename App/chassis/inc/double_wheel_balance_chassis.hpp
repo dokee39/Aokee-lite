@@ -10,8 +10,8 @@ namespace Chassis {
 class DoubleWheelBalanceChassis: public ChassisBase {
 public:
     explicit DoubleWheelBalanceChassis(
-        const std::shared_ptr<Motor::FbkMotorBase> motor_left,
-        const std::shared_ptr<Motor::FbkMotorBase> motor_right,
+        const std::shared_ptr<Motor::MotorBase> motor_left,
+        const std::shared_ptr<Motor::MotorBase> motor_right,
         const Lqr::LqrConfig<6, 2>& lqr_config
     );
     ~DoubleWheelBalanceChassis() override = default;

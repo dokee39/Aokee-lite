@@ -1,11 +1,11 @@
 #pragma once
 
-#include "pwm_dc_motor.hpp"
 #include "tim.h"
+#include "motor_base.hpp"
 #include <cstdint>
 
 namespace Motor {
-struct PwmDcMotorImpConfig {
+struct PwmDcMotorImplConfig {
     enum TIM_TYPE_e {
         TIM_INT16 = 0,
         TIM_INT32 = 1,
@@ -23,18 +23,15 @@ struct PwmDcMotorImpConfig {
     TIM_HandleTypeDef& htim_ecd;
 };
 
-class PwmDcMotorImp: public PwmDcMotorImpConfig, public MotorImpBase, public PwmDcMotor {
+class PwmDcMotorImpl: public PwmDcMotorImplConfig, public MotorImplBase {
 public:
-    explicit PwmDcMotorImp(
-        const PwmDcMotorImpConfig& config_imp,
-        const PwmDcMotorConfig& config_motor
-    );
-    ~PwmDcMotorImp() override = default;
+    explicit PwmDcMotorImpl(const PwmDcMotorImplConfig& config_imp);
+    ~PwmDcMotorImpl() override = default;
 
 private:
-    PwmDcMotorImp() = delete; // must init
+    PwmDcMotorImpl() = delete; // must init
 
-    bool run() override;
-    bool fbk() override;
+    bool msg_out(std::any& a_ctrl_val) override;
+    bool msg_in(std::any& a_fbk_val) override;
 };
 } // namespace Motor

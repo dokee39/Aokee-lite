@@ -12,19 +12,18 @@ struct PwmDcMotorConfig {
 };
 
 // derived class : DC motor (controlled by PWM & feedback via pulse encoder)
-class PwmDcMotor: public PwmDcMotorConfig, public FbkMotorBase {
+class PwmDcMotor: public PwmDcMotorConfig, public MotorBase {
 public:
-    explicit PwmDcMotor(const PwmDcMotorConfig& config, MotorImpBase& imp):
+    explicit PwmDcMotor(const PwmDcMotorConfig& config, MotorImplBase& impl):
         PwmDcMotorConfig(config),
-        FbkMotorBase(imp) {}
+        MotorBase(impl) {}
     ~PwmDcMotor() override = default;
 
     bool ctrl() override;
     bool feedback() override;
 
-    // contrl_val here is pwm_duty
-
-protected:
+private:
+    // ctrl_val is pwm_duty, 0 ~ 1
     int32_t ecd_delta = 0;
 
 };

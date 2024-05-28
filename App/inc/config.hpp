@@ -2,7 +2,8 @@
 
 #include "double_wheel_balance_chassis.hpp"
 #include "matrix.h"
-#include "pwm_dc_motor_imp.hpp"
+#include "pwm_dc_motor_impl.hpp"
+#include "pwm_dc_motor.hpp"
 #include "robot_ctrl.hpp"
 #include "tim.h"
 
@@ -15,25 +16,25 @@ namespace Chassis {
     const float WHEEL_DIAMETER = 5.0f;
     const float TILT_ANGLE_SET = 0.0f;
 
-    const typename Motor::PwmDcMotorImpConfig MOTOR_IMP_LEFT {
-        .CCR_TYPE = Motor::PwmDcMotorImpConfig::TIM_INT32,
+    const typename Motor::PwmDcMotorImplConfig MOTOR_IMPL_LEFT {
+        .CCR_TYPE = Motor::PwmDcMotorImplConfig::TIM_INT32,
         .CCR_VAL_MAX = 2500,
         .htim_pwm = htim5,
         .TIM_PWM_CHANNEL_A = TIM_CHANNEL_3,
         .TIM_PWM_CHANNEL_B = TIM_CHANNEL_4,
 
-        .ECD_TYPE = Motor::PwmDcMotorImpConfig::TIM_INT32,
+        .ECD_TYPE = Motor::PwmDcMotorImplConfig::TIM_INT32,
         .htim_ecd = htim2,
     };
 
-    const typename Motor::PwmDcMotorImpConfig MOTOR_IMP_RIGHT {
-        .CCR_TYPE = Motor::PwmDcMotorImpConfig::TIM_INT16,
+    const typename Motor::PwmDcMotorImplConfig MOTOR_IMPL_RIGHT {
+        .CCR_TYPE = Motor::PwmDcMotorImplConfig::TIM_INT16,
         .CCR_VAL_MAX = 2500,
         .htim_pwm = htim8,
         .TIM_PWM_CHANNEL_A = TIM_CHANNEL_3,
         .TIM_PWM_CHANNEL_B = TIM_CHANNEL_4,
 
-        .ECD_TYPE = Motor::PwmDcMotorImpConfig::TIM_INT16,
+        .ECD_TYPE = Motor::PwmDcMotorImplConfig::TIM_INT16,
         .htim_ecd = htim3,
     };
 

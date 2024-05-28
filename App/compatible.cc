@@ -6,6 +6,7 @@
 #include "double_wheel_balance_chassis.hpp"
 #include "led_task.h"
 #include "motor_base.hpp"
+#include "pwm_dc_motor.hpp"
 #include "robot_ctrl.hpp"
 #include "task.h"
 
@@ -19,24 +20,23 @@ void main_entry(void) {
     TaskHandle_t xCreatedChassisTask;
     TaskHandle_t xCreatedUpdateSetTask;
 
-    std::shared_ptr<Motor::PwmDcMotorImp> chassis_motor_left(std::make_shared<Motor::PwmDcMotorImp>(
-        Config::Chassis::MOTOR_IMP_LEFT,
-        Config::Chassis::MOTOR
-    ));
-    std::shared_ptr<Motor::PwmDcMotorImp> chassis_motor_right(
-        std::make_shared<Motor::PwmDcMotorImp>(
-            Config::Chassis::MOTOR_IMP_RIGHT,
-            Config::Chassis::MOTOR
-        )
-    );
+    Motor::PwmDcMotorImpl chassis_motor_impl_left(Config::Chassis::MOTOR_IMPL_LEFT);
+    Motor::PwmDcMotorImpl chassis_motor_impl_right(Config::Chassis::MOTOR_IMPL_RIGHT);
 
-    std::shared_ptr<Chassis::DoubleWheelBalanceChassis> chassis(
-        std::make_shared<Chassis::DoubleWheelBalanceChassis>(
-            std::static_pointer_cast<Motor::FbkMotorBase>(chassis_motor_left),
-            std::static_pointer_cast<Motor::FbkMotorBase>(chassis_motor_right),
-            Config::Chassis::DOUBLE_WHEEL_BALANCE_CHASSIS_LQR
-        )
-    );
+    std::shared_ptr chassis_motor_left(std::make_shared<Motor::PwmDcMotor>(
+        Config::Chassis::MOTOR,
+        chassis_motor_impl_left
+    ));
+    std::shared_ptr chassis_motor_right(std::make_shared<Motor::PwmDcMotor>(
+        Config::Chassis::MOTOR,
+        chassis_motor_impl_right
+    ));
+
+    std::shared_ptr chassis(std::make_shared<Chassis::DoubleWheelBalanceChassis>(
+        chassis_motor_left, 
+        chassis_motor_right,
+        Config::Chassis::DOUBLE_WHEEL_BALANCE_CHASSIS_LQR
+    ));
 
     Robot::RobotCtrl robot(chassis);
 
@@ -48,14 +48,14 @@ void main_entry(void) {
         (tskIDLE_PRIORITY + 1),
         &xCreatedLedTask
     );
-    xTaskCreate(
-        imu_task,
-        "imu task",
-        configMINIMAL_STACK_SIZE * 8,
-        static_cast<void*>(&robot),
-        (tskIDLE_PRIORITY + 6),
-        &xCreatedImuTask
-    );
+    // xTaskCreate(
+    //     imu_task,
+    //     "imu task",
+    //     configMINIMAL_STACK_SIZE * 8,
+    //     static_cast<void*>(&robot),
+    //     (tskIDLE_PRIORITY + 6),
+    //     &xCreatedImuTask
+    // );
     // xTaskCreate(
     //     chassis_task,
     //     "chassis task",
