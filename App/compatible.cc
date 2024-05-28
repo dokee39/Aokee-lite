@@ -44,14 +44,14 @@ void main_entry(void) {
 
     Robot::RobotCtrl robot(chassis);
 
-    // xTaskCreate(
-    //     led_task,
-    //     "led task",
-    //     configMINIMAL_STACK_SIZE * 1,
-    //     NULL,
-    //     (tskIDLE_PRIORITY + 1),
-    //     &xCreatedLedTask
-    // );
+    xTaskCreate(
+        led_task,
+        "led task",
+        configMINIMAL_STACK_SIZE * 1,
+        NULL,
+        (tskIDLE_PRIORITY + 1),
+        &xCreatedLedTask
+    );
     xTaskCreate(
         imu_task,
         "imu task",

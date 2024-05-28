@@ -9,6 +9,12 @@ const float PIf = 3.14159265358979323846f; /* pi */
 float rad_format(const float ang);
 
 template<typename T>
+T abs(T& num)
+{
+    return num >= 0 ? num : -num;
+}
+
+template<typename T>
 void abs_limit(T& num, const T& limit) {
     if (num > limit)
         num = limit;

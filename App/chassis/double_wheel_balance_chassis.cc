@@ -8,7 +8,7 @@ DoubleWheelBalanceChassis::DoubleWheelBalanceChassis(
     const Lqr::LqrConfig<6, 2> &lqr_config
 ):  
     lqr(lqr_config),
-    yaw(imu.angle[0]),
+    yaw(imu.angle[2]),
     tilt_angle(imu.angle[1]), 
     tilt_speed(imu.gyro[1]) {
     motors.emplace_back(motor_left);
