@@ -3,14 +3,13 @@
 
 #include <stdint.h>
 
-#define SW_I2C_WAIT_TIME    2 // 10us 100kHz
+#define SW_I2C_WAIT_TIME 2
 
-#define I2C_READ            0x01
-#define READ_CMD            1
-#define WRITE_CMD           0
+#define I2C_READ 0x01
+#define READ_CMD 1
+#define WRITE_CMD 0
 
-typedef enum
-{
+typedef enum {
     HAL_IO_OPT_SET_SDA_LOW = 0,
     HAL_IO_OPT_SET_SDA_HIGH,
     HAL_IO_OPT_SET_SCL_LOW,
@@ -21,22 +20,20 @@ typedef enum
     HAL_IO_OPT_SET_SCL_OUTPUT,
     HAL_IO_OPT_GET_SDA_LEVEL,
     HAL_IO_OPT_GET_SCL_LEVEL,
-}hal_io_opt_e;
+} hal_io_opt_e;
 
 typedef struct sw_i2c_s {
     int (*hal_init)(void);
-    int (*hal_io_ctl)(hal_io_opt_e opt, void *arg);
+    int (*hal_io_ctl)(hal_io_opt_e opt, void* arg);
     void (*hal_delay_us)(uint32_t us);
 } sw_i2c_t;
 
-
 /* functions */
-void SW_I2C_initial(sw_i2c_t *d);
-uint8_t SW_I2C_Read_8addr(sw_i2c_t *d, uint8_t IICID, uint8_t regaddr, uint8_t *pdata, uint8_t rcnt);
-uint8_t SW_I2C_Read_16addr(sw_i2c_t *d, uint8_t IICID, uint16_t regaddr, uint8_t *pdata, uint8_t rcnt);
-uint8_t SW_I2C_Write_8addr(sw_i2c_t *d, uint8_t IICID, uint8_t regaddr, uint8_t *pdata, uint8_t rcnt);
-uint8_t SW_I2C_Write_16addr(sw_i2c_t *d, uint8_t IICID, uint16_t regaddr, uint8_t *pdata, uint8_t rcnt);
-uint8_t SW_I2C_Check_SlaveAddr(sw_i2c_t *d, uint8_t IICID);
+void SW_I2C_initial(sw_i2c_t* d);
+uint8_t SW_I2C_Read_8addr(sw_i2c_t* d, uint8_t IICID, uint8_t regaddr, uint8_t* pdata, uint8_t rcnt);
+uint8_t SW_I2C_Read_16addr(sw_i2c_t* d, uint8_t IICID, uint16_t regaddr, uint8_t* pdata, uint8_t rcnt);
+uint8_t SW_I2C_Write_8addr(sw_i2c_t* d, uint8_t IICID, uint8_t regaddr, uint8_t* pdata, uint8_t rcnt);
+uint8_t SW_I2C_Write_16addr(sw_i2c_t* d, uint8_t IICID, uint16_t regaddr, uint8_t* pdata, uint8_t rcnt);
+uint8_t SW_I2C_Check_SlaveAddr(sw_i2c_t* d, uint8_t IICID);
 
-
-#endif  /* __I2C_SW_H */
+#endif /* __I2C_SW_H */

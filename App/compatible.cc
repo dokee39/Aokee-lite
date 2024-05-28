@@ -8,12 +8,10 @@
 #include "motor_base.hpp"
 #include "robot_ctrl.hpp"
 #include "task.h"
-#include "led_task.h"
 
 static void imu_task(void* arg);
 static void chassis_task(void* arg);
 static void update_set_task(void* arg);
-
 
 void main_entry(void) {
     TaskHandle_t xCreatedLedTask;
@@ -21,12 +19,10 @@ void main_entry(void) {
     TaskHandle_t xCreatedChassisTask;
     TaskHandle_t xCreatedUpdateSetTask;
 
-    std::shared_ptr<Motor::PwmDcMotorImp> chassis_motor_left(
-        std::make_shared<Motor::PwmDcMotorImp>(
-            Config::Chassis::MOTOR_IMP_LEFT,
-            Config::Chassis::MOTOR
-        )
-    );
+    std::shared_ptr<Motor::PwmDcMotorImp> chassis_motor_left(std::make_shared<Motor::PwmDcMotorImp>(
+        Config::Chassis::MOTOR_IMP_LEFT,
+        Config::Chassis::MOTOR
+    ));
     std::shared_ptr<Motor::PwmDcMotorImp> chassis_motor_right(
         std::make_shared<Motor::PwmDcMotorImp>(
             Config::Chassis::MOTOR_IMP_RIGHT,
@@ -95,4 +91,3 @@ static void update_set_task(void* arg) {
     Robot::RobotCtrl& robot(*static_cast<Robot::RobotCtrl*>(arg));
     robot.update_set_task(nullptr);
 }
-

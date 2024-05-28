@@ -1,7 +1,7 @@
 #include <math.h>
 
-#include "led_task.h"
 #include "FreeRTOS.h"
+#include "led_task.h"
 #include "task.h"
 #include "ws2812.h"
 
@@ -15,7 +15,6 @@ void led_task(void* argument) {
 
     xLastWakeTime = xTaskGetTickCount();
 
-    
     for (;;) {
         time = xTaskGetTickCount();
         time %= LED_FLOW_PERIOD;

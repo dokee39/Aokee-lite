@@ -1,7 +1,7 @@
 #ifndef BSP_RC_H
 #define BSP_RC_H
-#include <stdint.h>
 #include "main.h"
+#include <stdint.h>
 
 #define huart_dbus huart5
 extern UART_HandleTypeDef huart_dbus;

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "mpu6050.h"
-#include "i2c.h"
 #include "FreeRTOS.h"
+#include "i2c.h"
+#include "mpu6050.h"
 #include "portmacro.h"
 #include "sw_i2c.h"
 #include "task.h"
@@ -32,7 +32,7 @@ private:
     const float GYRO_OFFSET_MAX = 1.0f;
     uint32_t cali_time_count = 0;
     const uint32_t CALI_TIME = 20000;
-    
+
     void calc_angle();
     void cali_hook();
 };

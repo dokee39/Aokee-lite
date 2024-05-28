@@ -36,7 +36,7 @@ void Imu::task(void* arg) {
         MahonyAHRSupdateIMU(quat, gyro[0], gyro[1], gyro[2], acc[0], acc[1], acc[2]);
         calc_angle();
 
-// #warning "DEBUG"
+        // #warning "DEBUG"
         // if (cali_time_count < CALI_TIME) cali_hook();
         // usart1_printf("%.6f,%.6f,%.6f\r\n", gyro_offset[0], gyro_offset[1], gyro_offset[2]);
         // usart1_printf("%.6f,%.6f,%.6f\r\n", angle[0], angle[1], angle[2]);
@@ -72,9 +72,12 @@ void Imu::cali_hook() {
     cali_time_count++;
 
     if (cali_time_count >= CALI_TIME) {
-        if (UserLib::abs<float>(gyro_offset[0]) > GYRO_OFFSET_MAX) gyro_offset[0] = 0;
-        if (UserLib::abs<float>(gyro_offset[1]) > GYRO_OFFSET_MAX) gyro_offset[1] = 0;
-        if (UserLib::abs<float>(gyro_offset[2]) > GYRO_OFFSET_MAX) gyro_offset[2] = 0;
+        if (UserLib::abs<float>(gyro_offset[0]) > GYRO_OFFSET_MAX)
+            gyro_offset[0] = 0;
+        if (UserLib::abs<float>(gyro_offset[1]) > GYRO_OFFSET_MAX)
+            gyro_offset[1] = 0;
+        if (UserLib::abs<float>(gyro_offset[2]) > GYRO_OFFSET_MAX)
+            gyro_offset[2] = 0;
     }
 }
 

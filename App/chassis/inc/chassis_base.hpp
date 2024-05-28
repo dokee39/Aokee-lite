@@ -36,6 +36,5 @@ private:
     virtual void update_state() = 0;
     virtual void ctrl_val_calc() = 0;
     virtual void ctrl() = 0;
-
 };
 } // namespace Chassis

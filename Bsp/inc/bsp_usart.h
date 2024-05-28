@@ -9,7 +9,7 @@ extern "C" {
 
 #define USART1_TX_BUF_LEN 128
 
-void usart1_printf(const char *fmt, ...);
+void usart1_printf(const char* fmt, ...);
 
 #ifdef __cplusplus
 } // extern "C"

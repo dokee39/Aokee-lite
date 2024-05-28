@@ -1,7 +1,7 @@
 #include "robot_ctrl.hpp"
+#include "FreeRTOS.h"
 #include "config.hpp"
 #include "remote_controller.h"
-#include "FreeRTOS.h"
 #include "task.h"
 #include "user_lib_cpp.hpp"
 
@@ -28,4 +28,3 @@ namespace Robot {
     }
 }
 } // namespace Robot
-    

@@ -42,7 +42,5 @@ private:
     float yaw_set;
     float& tilt_angle;
     float& tilt_speed;
-
 };
 } // namespace Chassis
-
