@@ -1,4 +1,5 @@
 #include <cmath>
+#include <cstdint>
 
 #include "BMI088driver.h"
 #include "FreeRTOS.h"
@@ -6,14 +7,24 @@
 #include "imu.hpp"
 #include "task.h"
 
+// #warning "DEBUG"
+// #include "bsp_usart.h"
+
 namespace Dev {
 void Imu::task(void* arg) {
     TickType_t xLastWakeTime;
 
     vTaskDelay(pdMS_TO_TICKS(10));
 
-    while (BMI088_init()) {
-        vTaskDelay(pdMS_TO_TICKS(100));
+#warning "DEBUG"
+    while (true) {
+    uint8_t ret = BMI088_init();
+        if (ret == 0) {
+            break;
+        } else {
+            // usart1_printf("%d\r\n", ret);
+            vTaskDelay(pdMS_TO_TICKS(50));
+        }
     }
 
     xLastWakeTime = xTaskGetTickCount();

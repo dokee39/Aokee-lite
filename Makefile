@@ -41,7 +41,7 @@ GDB := $(GCC_PREFIX)gdb
 HEX := $(CP) -O ihex
 BIN := $(CP) -O binary
 OOCD := openocd
-OOCDFLAGS := -f interface/stlink.cfg -f target/stm32f4x.cfg
+OOCDFLAGS := -f interface/cmsis-dap.cfg -f target/stm32f4x.cfg
 
 
 # --------------------------------------------------------------

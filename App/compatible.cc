@@ -4,9 +4,11 @@
 #include "compatible.h"
 #include "config.hpp"
 #include "double_wheel_balance_chassis.hpp"
+#include "led_task.h"
 #include "motor_base.hpp"
 #include "robot_ctrl.hpp"
 #include "task.h"
+#include "led_task.h"
 
 static void imu_task(void* arg);
 static void chassis_task(void* arg);
@@ -14,6 +16,7 @@ static void update_set_task(void* arg);
 
 
 void main_entry(void) {
+    TaskHandle_t xCreatedLedTask;
     TaskHandle_t xCreatedImuTask;
     TaskHandle_t xCreatedChassisTask;
     TaskHandle_t xCreatedUpdateSetTask;
@@ -41,6 +44,14 @@ void main_entry(void) {
 
     Robot::RobotCtrl robot(chassis);
 
+    // xTaskCreate(
+    //     led_task,
+    //     "led task",
+    //     configMINIMAL_STACK_SIZE * 1,
+    //     NULL,
+    //     (tskIDLE_PRIORITY + 1),
+    //     &xCreatedLedTask
+    // );
     xTaskCreate(
         imu_task,
         "imu task",
@@ -49,22 +60,22 @@ void main_entry(void) {
         (tskIDLE_PRIORITY + 6),
         &xCreatedImuTask
     );
-    xTaskCreate(
-        chassis_task,
-        "chassis task",
-        configMINIMAL_STACK_SIZE * 8,
-        static_cast<void*>(&robot),
-        (tskIDLE_PRIORITY + 6),
-        &xCreatedChassisTask
-    );
-    xTaskCreate(
-        update_set_task,
-        "update set task",
-        configMINIMAL_STACK_SIZE * 8,
-        static_cast<void*>(&robot),
-        (tskIDLE_PRIORITY + 6),
-        &xCreatedUpdateSetTask
-    );
+    // xTaskCreate(
+    //     chassis_task,
+    //     "chassis task",
+    //     configMINIMAL_STACK_SIZE * 8,
+    //     static_cast<void*>(&robot),
+    //     (tskIDLE_PRIORITY + 6),
+    //     &xCreatedChassisTask
+    // );
+    // xTaskCreate(
+    //     update_set_task,
+    //     "update set task",
+    //     configMINIMAL_STACK_SIZE * 8,
+    //     static_cast<void*>(&robot),
+    //     (tskIDLE_PRIORITY + 6),
+    //     &xCreatedUpdateSetTask
+    // );
 
     /* Start scheduler */
     vTaskStartScheduler();
