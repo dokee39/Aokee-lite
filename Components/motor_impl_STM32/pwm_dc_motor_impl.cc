@@ -4,7 +4,7 @@
 #include "pwm_dc_motor_impl.hpp"
 
 namespace Motor {
-PwmDcMotorImpl::PwmDcMotorImpl(
+MotorImpl<PwmDcMotorImplConfig>::MotorImpl(
     const PwmDcMotorImplConfig& config_imp
 ):
     PwmDcMotorImplConfig(config_imp) {
@@ -15,7 +15,7 @@ PwmDcMotorImpl::PwmDcMotorImpl(
     HAL_TIM_Encoder_Start(&htim_ecd, TIM_ECD_CHANNEL_B);
 }
 
-bool PwmDcMotorImpl::msg_out(std::any& a_ctrl_val) {
+bool MotorImpl<PwmDcMotorImplConfig>::msg_out(std::any& a_ctrl_val) {
     bool ret(true);
     float& ctrl_val(std::any_cast<float&>(a_ctrl_val));
 
@@ -38,7 +38,7 @@ bool PwmDcMotorImpl::msg_out(std::any& a_ctrl_val) {
     return ret;
 }
 
-bool PwmDcMotorImpl::msg_in(std::any& a_fbk_val) {
+bool MotorImpl<PwmDcMotorImplConfig>::msg_in(std::any& a_fbk_val) {
     bool ret(true);
     float& ecd_delta(std::any_cast<float&>(a_fbk_val));
 

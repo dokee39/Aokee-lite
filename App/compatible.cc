@@ -20,21 +20,14 @@ void main_entry(void) {
     TaskHandle_t xCreatedChassisTask;
     TaskHandle_t xCreatedUpdateSetTask;
 
-    Motor::PwmDcMotorImpl chassis_motor_impl_left(Config::Chassis::MOTOR_IMPL_LEFT);
-    Motor::PwmDcMotorImpl chassis_motor_impl_right(Config::Chassis::MOTOR_IMPL_RIGHT);
-
-    std::shared_ptr chassis_motor_left(std::make_shared<Motor::PwmDcMotor>(
-        Config::Chassis::MOTOR,
-        chassis_motor_impl_left
-    ));
-    std::shared_ptr chassis_motor_right(std::make_shared<Motor::PwmDcMotor>(
-        Config::Chassis::MOTOR,
-        chassis_motor_impl_right
-    ));
+    Motor::MotorImpl chassis_motor_impl_left(Config::Chassis::MOTOR_IMPL_LEFT);
+    Motor::MotorImpl chassis_motor_impl_right(Config::Chassis::MOTOR_IMPL_RIGHT);
+    Motor::Motor chassis_motor_left(Config::Chassis::MOTOR, chassis_motor_impl_left);
+    Motor::Motor chassis_motor_right(Config::Chassis::MOTOR, chassis_motor_impl_right);
 
     std::shared_ptr chassis(std::make_shared<Chassis::DoubleWheelBalanceChassis>(
-        chassis_motor_left, 
-        chassis_motor_right,
+        static_cast<std::shared_ptr<Motor::MotorBase>>(&chassis_motor_left), 
+        static_cast<std::shared_ptr<Motor::MotorBase>>(&chassis_motor_right), 
         Config::Chassis::DOUBLE_WHEEL_BALANCE_CHASSIS_LQR
     ));
 
@@ -48,14 +41,14 @@ void main_entry(void) {
         (tskIDLE_PRIORITY + 1),
         &xCreatedLedTask
     );
-    // xTaskCreate(
-    //     imu_task,
-    //     "imu task",
-    //     configMINIMAL_STACK_SIZE * 8,
-    //     static_cast<void*>(&robot),
-    //     (tskIDLE_PRIORITY + 6),
-    //     &xCreatedImuTask
-    // );
+    xTaskCreate(
+        imu_task,
+        "imu task",
+        configMINIMAL_STACK_SIZE * 8,
+        static_cast<void*>(&robot),
+        (tskIDLE_PRIORITY + 6),
+        &xCreatedImuTask
+    );
     // xTaskCreate(
     //     chassis_task,
     //     "chassis task",

@@ -55,4 +55,25 @@ private:
     float speed = 0.0f;
     float angle = 0.0f;
 };
+
+template<typename Tcfg> // wait for specialization for different types of chassis
+class MotorImpl: public MotorImplBase {
+public:
+    explicit MotorImpl(const Tcfg& config);
+    ~MotorImpl() override = default;
+
+private:
+    MotorImpl() = delete; // must init
+};
+
+template<typename Tcfg> // wait for specialization for different types of chassis
+class Motor: public MotorBase {
+public:
+    explicit Motor(const Tcfg& config, MotorImplBase& impl);
+    ~Motor() override = default;
+
+private:
+    Motor() = delete; // must init
+};
+
 } // namespace Motor

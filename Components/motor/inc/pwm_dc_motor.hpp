@@ -12,12 +12,13 @@ struct PwmDcMotorConfig {
 };
 
 // derived class : DC motor (controlled by PWM & feedback via pulse encoder)
-class PwmDcMotor: public PwmDcMotorConfig, public MotorBase {
+template<>
+class Motor<PwmDcMotorConfig>: public PwmDcMotorConfig, public MotorBase {
 public:
-    explicit PwmDcMotor(const PwmDcMotorConfig& config, MotorImplBase& impl):
+    explicit Motor(const PwmDcMotorConfig& config, MotorImplBase& impl):
         PwmDcMotorConfig(config),
         MotorBase(impl) {}
-    ~PwmDcMotor() override = default;
+    ~Motor() override = default;
 
     bool ctrl() override;
     bool feedback() override;

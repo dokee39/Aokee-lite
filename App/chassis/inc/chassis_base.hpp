@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <strings.h>
 #include <vector>
 
 #include "motor_base.hpp"
@@ -37,4 +38,16 @@ private:
     virtual void ctrl_val_calc() = 0;
     virtual void ctrl() = 0;
 };
+
+
+template<typename Tcfg> // wait for specialization for different types of chassis
+class Chassis: public ChassisBase {
+public:
+    explicit Chassis(const Tcfg& config);
+    ~Chassis() override = default;
+
+private:
+    Chassis() = delete; // must init
+};
+
 } // namespace Chassis

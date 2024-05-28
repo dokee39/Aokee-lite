@@ -4,7 +4,7 @@
 #include "user_lib_cpp.hpp"
 
 namespace Motor {
-bool PwmDcMotor::ctrl() {
+bool Motor<PwmDcMotorConfig>::ctrl() {
     bool ret(true);
 
     UserLib::abs_limit<float>(ctrl_val, 1.0f);
@@ -15,7 +15,7 @@ bool PwmDcMotor::ctrl() {
     return ret;
 }
 
-bool PwmDcMotor::feedback() {
+bool Motor<PwmDcMotorConfig>::feedback() {
     bool ret(true);
     float speed(0.0f);
     float angle(0.0f);

@@ -23,13 +23,14 @@ struct PwmDcMotorImplConfig {
     TIM_HandleTypeDef& htim_ecd;
 };
 
-class PwmDcMotorImpl: public PwmDcMotorImplConfig, public MotorImplBase {
+template<>
+class MotorImpl<PwmDcMotorImplConfig>: public PwmDcMotorImplConfig, public MotorImplBase {
 public:
-    explicit PwmDcMotorImpl(const PwmDcMotorImplConfig& config_imp);
-    ~PwmDcMotorImpl() override = default;
+    explicit MotorImpl(const PwmDcMotorImplConfig& config_imp);
+    ~MotorImpl() override = default;
 
 private:
-    PwmDcMotorImpl() = delete; // must init
+    MotorImpl() = delete; // must init
 
     bool msg_out(std::any& a_ctrl_val) override;
     bool msg_in(std::any& a_fbk_val) override;
