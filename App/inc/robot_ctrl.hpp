@@ -1,20 +1,18 @@
 #pragma once
 
-#include <memory>
-
 #include "chassis_base.hpp"
 
 namespace Robot {
 class RobotCtrl {
 public:
-    explicit RobotCtrl(std::shared_ptr<Chassis::ChassisBase> chassis):
+    explicit RobotCtrl(Chassis::ChassisBase* chassis):
         chassis(chassis),
         chassis_set(chassis->set) {}
     ~RobotCtrl() = default;
 
     [[noreturn]] void update_set_task(void* arg);
 
-    std::shared_ptr<Chassis::ChassisBase> chassis;
+    Chassis::ChassisBase* chassis;
 
 private:
     RobotCtrl() = delete; // must init

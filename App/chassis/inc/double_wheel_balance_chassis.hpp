@@ -3,26 +3,20 @@
 #include "chassis_base.hpp"
 #include "imu.hpp"
 #include "lqr_controller.hpp"
-#include "motor_base.hpp"
-#include <memory>
+#include "double_wheel_balance_chassis_config.hpp"
 
 namespace Chassis {
-class DoubleWheelBalanceChassis: public ChassisBase {
+template<>
+class Chassis<Config::Chassis::DoubleWheelBalanceChassisConfig>: public ChassisBase {
 public:
-    explicit DoubleWheelBalanceChassis(
-        const std::shared_ptr<Motor::MotorBase> motor_left,
-        const std::shared_ptr<Motor::MotorBase> motor_right,
-        const Lqr::LqrConfig<6, 2>& lqr_config
-    );
-    ~DoubleWheelBalanceChassis() override = default;
+    explicit Chassis(const Config::Chassis::DoubleWheelBalanceChassisConfig&);
+    ~Chassis() override = default;
 
     void init() override;
 
     Dev::Imu imu;
 
 private:
-    DoubleWheelBalanceChassis() = delete; // must init
-
     void update_state() override;
     void ctrl_val_calc() override;
     void ctrl() override;
