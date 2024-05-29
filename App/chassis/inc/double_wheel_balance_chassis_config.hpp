@@ -6,16 +6,28 @@
 #include "tim.h"
 #include "lqr_controller.hpp"
 
-
 namespace Config::Chassis {
 namespace DoubleWheelChassis {
-
-const uint32_t CYCLE_TIME = 1;
 
 const float WHEEL_DIAMETER = 5.0f;
 const float TILT_ANGLE_SET = 0.0f;
 
 const typename Motor::PwmDcMotorImplConfig MOTOR_IMPL_LEFT {
+    .OUT_DIR = 1,
+
+    .CCR_TYPE = Motor::PwmDcMotorImplConfig::TIM_INT16,
+    .CCR_VAL_MAX = 2500,
+    .htim_pwm = htim12,
+    .TIM_PWM_CHANNEL_A = TIM_CHANNEL_1,
+    .TIM_PWM_CHANNEL_B = TIM_CHANNEL_2,
+
+    .ECD_TYPE = Motor::PwmDcMotorImplConfig::TIM_INT16,
+    .htim_ecd = htim8,
+};
+
+const typename Motor::PwmDcMotorImplConfig MOTOR_IMPL_RIGHT {
+    .OUT_DIR = -1,
+
     .CCR_TYPE = Motor::PwmDcMotorImplConfig::TIM_INT32,
     .CCR_VAL_MAX = 2500,
     .htim_pwm = htim5,
@@ -24,17 +36,6 @@ const typename Motor::PwmDcMotorImplConfig MOTOR_IMPL_LEFT {
 
     .ECD_TYPE = Motor::PwmDcMotorImplConfig::TIM_INT32,
     .htim_ecd = htim2,
-};
-
-const typename Motor::PwmDcMotorImplConfig MOTOR_IMPL_RIGHT {
-    .CCR_TYPE = Motor::PwmDcMotorImplConfig::TIM_INT16,
-    .CCR_VAL_MAX = 2500,
-    .htim_pwm = htim8,
-    .TIM_PWM_CHANNEL_A = TIM_CHANNEL_3,
-    .TIM_PWM_CHANNEL_B = TIM_CHANNEL_4,
-
-    .ECD_TYPE = Motor::PwmDcMotorImplConfig::TIM_INT16,
-    .htim_ecd = htim3,
 };
 
 const typename Motor::PwmDcMotorConfig MOTOR { 

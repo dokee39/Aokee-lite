@@ -13,6 +13,8 @@ struct PwmDcMotorImplConfig {
     static const uint32_t TIM_ECD_CHANNEL_A = TIM_CHANNEL_1;
     static const uint32_t TIM_ECD_CHANNEL_B = TIM_CHANNEL_2;
 
+    const int OUT_DIR;
+
     const TIM_TYPE_e CCR_TYPE;
     const uint32_t CCR_VAL_MAX;
     TIM_HandleTypeDef& htim_pwm;
@@ -26,7 +28,7 @@ struct PwmDcMotorImplConfig {
 template<>
 class MotorImpl<PwmDcMotorImplConfig>: public PwmDcMotorImplConfig {
 public:
-    explicit MotorImpl(const PwmDcMotorImplConfig& config_imp);
+    explicit MotorImpl(const PwmDcMotorImplConfig& config_impl);
     ~MotorImpl() = default;
 
     bool msg_out(const float& pwm_duty);

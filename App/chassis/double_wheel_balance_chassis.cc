@@ -60,11 +60,11 @@ void Chassis<Here>::update_state() {
     ref.vy = (motors[0]->get_speed() + motors[1]->get_speed()) * WHEEL_DIAMETER;
     ref.wz = imu.gyro[0];
 
-    displacement += ref.vy * (float)CYCLE_TIME / 1000.0f;
+    displacement += ref.vy * (float)Config::Time::CHASSIS_CYCLE / 1000.0f;
     if (set.vy != 0)
         displacement = 0.0f;
 
-    yaw_set += set.wz * (float)CYCLE_TIME / 1000.0f;
+    yaw_set += set.wz * (float)Config::Time::CHASSIS_CYCLE / 1000.0f;
 }
 
 void Chassis<Here>::ctrl_val_calc() {
