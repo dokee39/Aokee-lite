@@ -9,7 +9,7 @@ bool Motor<PwmDcMotorConfig>::ctrl() {
 
     UserLib::abs_limit<float>(ctrl_val, 1.0f);
 
-    std::any a(ctrl_val);
+    std::any a(&ctrl_val);
     ret = impl.msg_out(a);
 
     return ret;
@@ -20,7 +20,7 @@ bool Motor<PwmDcMotorConfig>::feedback() {
     float speed(0.0f);
     float angle(0.0f);
 
-    std::any a(ecd_delta);
+    std::any a(&ecd_delta);
     impl.msg_in(a);
 
     angle = get_angle() + ecd_delta * PULSE_TO_RAD_RATIO;

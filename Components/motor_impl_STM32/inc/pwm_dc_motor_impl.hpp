@@ -32,7 +32,7 @@ public:
 private:
     MotorImpl() = delete; // must init
 
-    bool msg_out(std::any& a_ctrl_val) override;
-    bool msg_in(std::any& a_fbk_val) override;
+    bool msg_out(std::any a_ctrl_val) override;
+    bool msg_in(std::any a_fbk_val) override;
 };
 } // namespace Motor

@@ -10,8 +10,8 @@ public:
     virtual ~MotorImplBase() = default;
 
     // override the following functions in derived class
-    virtual bool msg_out(std::any& a_ctrl_val) = 0;
-    virtual bool msg_in(std::any& a_fbk_val) = 0;
+    virtual bool msg_out(std::any a_ctrl_val) = 0;
+    virtual bool msg_in(std::any a_fbk_val) = 0;
 
 private:
     MotorImplBase(const MotorImplBase&) = delete; // uncopyable

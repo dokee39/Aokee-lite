@@ -1,6 +1,7 @@
 #include "FreeRTOS.h"
 #include "compatible.h"
 #include "config.hpp"
+#include "imu.hpp"
 #include "led_task.h"
 #include "robot_ctrl.hpp"
 #include "task.h"
@@ -12,11 +13,9 @@ static void update_set_task(void* arg);
 
 void main_entry(void) {
     TaskHandle_t xCreatedLedTask;
-    TaskHandle_t xCreatedImuTask;
-    TaskHandle_t xCreatedChassisTask;
     TaskHandle_t xCreatedUpdateSetTask;
 
-    Chassis::ChassisBase* chassis = new Chassis::Chassis(Config::Chassis::DoubleWheelBalance);
+    auto chassis = new Chassis::Chassis(Config::Chassis::DoubleWheelBalance);
     Robot::RobotCtrl robot(chassis);
 
     xTaskCreate(
@@ -27,22 +26,6 @@ void main_entry(void) {
         (tskIDLE_PRIORITY + 1),
         &xCreatedLedTask
     );
-    xTaskCreate(
-        imu_task,
-        "imu task",
-        configMINIMAL_STACK_SIZE * 8,
-        static_cast<void*>(&robot),
-        (tskIDLE_PRIORITY + 6),
-        &xCreatedImuTask
-    );
-    // xTaskCreate(
-    //     chassis_task,
-    //     "chassis task",
-    //     configMINIMAL_STACK_SIZE * 8,
-    //     static_cast<void*>(&robot),
-    //     (tskIDLE_PRIORITY + 6),
-    //     &xCreatedChassisTask
-    // );
     // xTaskCreate(
     //     update_set_task,
     //     "update set task",
@@ -54,16 +37,6 @@ void main_entry(void) {
 
     /* Start scheduler */
     vTaskStartScheduler();
-}
-
-static void imu_task(void* arg) {
-    Robot::RobotCtrl& robot(*static_cast<Robot::RobotCtrl*>(arg));
-    static_cast<Chassis::Chassis<Config::Chassis::DoubleWheelBalanceChassisConfig>*>(robot.chassis)->imu.task(nullptr);
-}
-
-static void chassis_task(void* arg) {
-    Robot::RobotCtrl& robot(*static_cast<Robot::RobotCtrl*>(arg));
-    robot.chassis->task(nullptr);
 }
 
 static void update_set_task(void* arg) {

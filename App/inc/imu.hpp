@@ -31,7 +31,7 @@ private:
     float quat[4] = { 1.0f, 0.0f, 0.0f, 0.0f };
     const float GYRO_OFFSET_MAX = 1.0f;
     uint32_t cali_time_count = 0;
-    const uint32_t CALI_TIME = 20000;
+    const uint32_t CALI_TIME = 10000;
 
     void calc_angle();
     void cali_hook();
