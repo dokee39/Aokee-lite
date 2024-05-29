@@ -40,14 +40,14 @@ Chassis<Here>::Chassis(const Here& config):
         (tskIDLE_PRIORITY + 6),
         &xCreatedImuTask
     );
-    // xTaskCreate(
-    //     chassis_task,
-    //     "chassis task",
-    //     configMINIMAL_STACK_SIZE * 8,
-    //     static_cast<void*>(this),
-    //     (tskIDLE_PRIORITY + 6),
-    //     &xCreatedChassisTask
-    // );
+    xTaskCreate(
+        chassis_task,
+        "chassis task",
+        configMINIMAL_STACK_SIZE * 8,
+        static_cast<void*>(this),
+        (tskIDLE_PRIORITY + 6),
+        &xCreatedChassisTask
+    );
 }
 
 void Chassis<Here>::init() {}

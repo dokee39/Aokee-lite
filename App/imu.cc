@@ -6,15 +6,16 @@
 #include "imu.hpp"
 #include "task.h"
 #include "user_lib_cpp.hpp"
+#include "config.hpp"
 
-#warning "DEBUG"
-#include "bsp_usart.h"
+// #warning "DEBUG"
+// #include "bsp_usart.h"
 
 namespace Dev {
 void Imu::task(void* arg) {
     TickType_t xLastWakeTime;
 
-    vTaskDelay(pdMS_TO_TICKS(10));
+    vTaskDelay(pdMS_TO_TICKS(Config::Time::IMU_INIT));
 
     while (MPU6050_Init(&mpu6050, &sw_i2c_imu)) {
         vTaskDelay(pdMS_TO_TICKS(50));
@@ -39,10 +40,10 @@ void Imu::task(void* arg) {
         #warning "DEBUG"
         if (cali_time_count < CALI_TIME) cali_hook();
         // usart1_printf("%.6f,%.6f,%.6f\r\n", gyro_offset[0], gyro_offset[1], gyro_offset[2]);
-        usart1_printf("%.6f,%.6f,%.6f\r\n", angle[0], angle[1], angle[2]);
+        // usart1_printf("%.6f,%.6f,%.6f\r\n", angle[0], angle[1], angle[2]);
         // usart1_printf("%.2f,%.2f,%.2f\r\n", acc[0], acc[1], acc[2]);
 
-        vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(1));
+        vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(Config::Time::IMU_CYCLE));
     }
 }
 

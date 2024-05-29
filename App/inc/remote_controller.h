@@ -19,6 +19,11 @@
   */
 #ifndef REMOTE_CONTROL_H
 #define REMOTE_CONTROL_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "bsp_rc.h"
 #include <stdint.h>
 
@@ -79,4 +84,9 @@ extern void remote_control_init(void);
 extern uint8_t RC_data_is_error(void);
 extern void slove_RC_lost(void);
 extern void slove_data_error(void);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
+
 #endif

@@ -5,9 +5,7 @@
 namespace Robot {
 class RobotCtrl {
 public:
-    explicit RobotCtrl(Chassis::ChassisBase* chassis):
-        chassis(chassis),
-        chassis_set(chassis->set) {}
+    explicit RobotCtrl(Chassis::ChassisBase* chassis);
     ~RobotCtrl() = default;
 
     [[noreturn]] void update_set_task(void* arg);

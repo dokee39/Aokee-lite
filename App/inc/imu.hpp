@@ -29,7 +29,7 @@ private:
     TickType_t xLastWakeTime;
     MPU6050_t mpu6050;
     float quat[4] = { 1.0f, 0.0f, 0.0f, 0.0f };
-    const float GYRO_OFFSET_MAX = 1.0f;
+    const float GYRO_OFFSET_MAX = 0.05f;
     uint32_t cali_time_count = 0;
     const uint32_t CALI_TIME = 10000;
 
