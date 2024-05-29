@@ -15,33 +15,30 @@ MotorImpl<PwmDcMotorImplConfig>::MotorImpl(
     HAL_TIM_Encoder_Start(&htim_ecd, TIM_ECD_CHANNEL_B);
 }
 
-bool MotorImpl<PwmDcMotorImplConfig>::msg_out(std::any a_ctrl_val) {
+bool MotorImpl<PwmDcMotorImplConfig>::msg_out(const float& pwm_duty) {
     bool ret(true);
-    float& ctrl_val(*std::any_cast<float *>(a_ctrl_val));
 
-    if (ctrl_val < 0) {
+    if (pwm_duty < 0) {
         __HAL_TIM_SetCompare(&htim_pwm, TIM_PWM_CHANNEL_B, 0);
         __HAL_TIM_SetCompare(
             &htim_pwm,
             TIM_PWM_CHANNEL_A,
-            static_cast<uint32_t>(-ctrl_val * CCR_VAL_MAX)
+            static_cast<uint32_t>(-pwm_duty * CCR_VAL_MAX)
         );
     } else {
         __HAL_TIM_SetCompare(&htim_pwm, TIM_PWM_CHANNEL_A, 0);
         __HAL_TIM_SetCompare(
             &htim_pwm,
             TIM_PWM_CHANNEL_B,
-            static_cast<uint32_t>(ctrl_val * CCR_VAL_MAX)
+            static_cast<uint32_t>(pwm_duty * CCR_VAL_MAX)
         );
     }
 
     return ret;
 }
 
-bool MotorImpl<PwmDcMotorImplConfig>::msg_in(std::any a_fbk_val) {
+bool MotorImpl<PwmDcMotorImplConfig>::msg_in(int32_t& ecd_delta) {
     bool ret(true);
-    float& ecd_delta(*std::any_cast<float*>(a_fbk_val));
-
     switch (ECD_TYPE) {
         case TIM_INT16: {
             int16_t ecd = __HAL_TIM_GetCounter(&htim_ecd);

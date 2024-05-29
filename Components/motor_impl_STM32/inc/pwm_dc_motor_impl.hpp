@@ -24,15 +24,16 @@ struct PwmDcMotorImplConfig {
 };
 
 template<>
-class MotorImpl<PwmDcMotorImplConfig>: public PwmDcMotorImplConfig, public MotorImplBase {
+class MotorImpl<PwmDcMotorImplConfig>: public PwmDcMotorImplConfig {
 public:
     explicit MotorImpl(const PwmDcMotorImplConfig& config_imp);
-    ~MotorImpl() override = default;
+    ~MotorImpl() = default;
+
+    bool msg_out(const float& pwm_duty);
+    bool msg_in(int32_t& ecd_delta);
 
 private:
     MotorImpl() = delete; // must init
 
-    bool msg_out(std::any a_ctrl_val) override;
-    bool msg_in(std::any a_fbk_val) override;
 };
 } // namespace Motor

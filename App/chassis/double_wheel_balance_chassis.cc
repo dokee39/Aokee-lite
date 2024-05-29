@@ -24,8 +24,8 @@ Chassis<Here>::Chassis(const Here& config):
     TaskHandle_t xCreatedImuTask = *(new TaskHandle_t);
     TaskHandle_t xCreatedChassisTask = *(new TaskHandle_t);
     
-    Motor::MotorImplBase* motor_imp_left = new Motor::MotorImpl(config.MOTOR_IMPL_LEFT);
-    Motor::MotorImplBase* motor_imp_right = new Motor::MotorImpl(config.MOTOR_IMPL_RIGHT);
+    auto motor_imp_left = new Motor::MotorImpl(config.MOTOR_IMPL_LEFT);
+    auto motor_imp_right = new Motor::MotorImpl(config.MOTOR_IMPL_RIGHT);
     Motor::MotorBase* motor_left = new Motor::Motor(config.MOTOR, *motor_imp_left);
     Motor::MotorBase* motor_right = new Motor::Motor(config.MOTOR, *motor_imp_right);
 
