@@ -21,6 +21,7 @@ void main_entry(void) {
 
     auto chassis = new Chassis::Chassis(Config::Chassis::DoubleWheelBalance);
     auto robot = new Robot::RobotCtrl(chassis);
+    UNUSED(robot);
 
     /* Start scheduler */
     vTaskStartScheduler();

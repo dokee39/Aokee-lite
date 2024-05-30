@@ -37,7 +37,7 @@ Chassis<Here>::Chassis(const Here& config):
         "imu task",
         configMINIMAL_STACK_SIZE * 8,
         static_cast<void*>(&this->imu),
-        (tskIDLE_PRIORITY + 6),
+        (tskIDLE_PRIORITY + Config::Priority::IMU),
         &xCreatedImuTask
     );
     xTaskCreate(
@@ -45,7 +45,7 @@ Chassis<Here>::Chassis(const Here& config):
         "chassis task",
         configMINIMAL_STACK_SIZE * 8,
         static_cast<void*>(this),
-        (tskIDLE_PRIORITY + 6),
+        (tskIDLE_PRIORITY + Config::Priority::CHASSIS),
         &xCreatedChassisTask
     );
 }

@@ -14,6 +14,7 @@ struct PwmDcMotorImplConfig {
     static const uint32_t TIM_ECD_CHANNEL_B = TIM_CHANNEL_2;
 
     const int OUT_DIR;
+    const int IN_DIR;
 
     const TIM_TYPE_e CCR_TYPE;
     const uint32_t CCR_VAL_MAX;

@@ -37,11 +37,11 @@ bool MotorImpl<PwmDcMotorImplConfig>::msg_in(int32_t& ecd_delta) {
     switch (ECD_TYPE) {
         case TIM_INT16: {
             int16_t ecd = __HAL_TIM_GetCounter(&htim_ecd);
-            ecd_delta = static_cast<int32_t>(ecd);
+            ecd_delta = IN_DIR * static_cast<int32_t>(ecd);
         } break;
         case TIM_INT32: {
             int32_t ecd = __HAL_TIM_GetCounter(&htim_ecd);
-            ecd_delta = ecd;
+            ecd_delta = IN_DIR * ecd;
         } break;
         default:
             break;

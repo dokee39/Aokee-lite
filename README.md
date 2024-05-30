@@ -3,6 +3,7 @@
 
 ## 项目说明
 
+- [![wakatime](https://wakatime.com/badge/github/dokee39/Aokee-lite.svg?style=flat-square)](https://wakatime.com/badge/github/dokee39/Aokee-lite)
 - 立创硬件开源平台: http://oshwhub.com/colorful-sun/aokee-lite
 - 代码仓库: https://github.com/dokee39/Aokee-lite (*编辑本项目说明时未完善*)
     - 虽然是平衡小车, 但是写代码时是以平衡步兵的标准来写的

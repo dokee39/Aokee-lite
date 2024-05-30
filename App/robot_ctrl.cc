@@ -23,7 +23,7 @@ RobotCtrl::RobotCtrl(Chassis::ChassisBase* chassis):
         "update set task",
         configMINIMAL_STACK_SIZE * 8,
         static_cast<void*>(this),
-        (tskIDLE_PRIORITY + 6),
+        (tskIDLE_PRIORITY + Config::Priority::UPDATE_SET),
         &xCreatedUpdateSetTask
     );
 }

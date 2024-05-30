@@ -9,11 +9,12 @@
 namespace Config::Chassis {
 namespace DoubleWheelChassis {
 
-const float WHEEL_DIAMETER = 5.0f;
-const float TILT_ANGLE_SET = 0.0f;
+const float WHEEL_DIAMETER(0.085f);
+const float TILT_ANGLE_SET(0.0f);
 
 const typename Motor::PwmDcMotorImplConfig MOTOR_IMPL_LEFT {
     .OUT_DIR = 1,
+    .IN_DIR = 1,
 
     .CCR_TYPE = Motor::PwmDcMotorImplConfig::TIM_INT16,
     .CCR_VAL_MAX = 2500,
@@ -27,6 +28,7 @@ const typename Motor::PwmDcMotorImplConfig MOTOR_IMPL_LEFT {
 
 const typename Motor::PwmDcMotorImplConfig MOTOR_IMPL_RIGHT {
     .OUT_DIR = -1,
+    .IN_DIR = -1,
 
     .CCR_TYPE = Motor::PwmDcMotorImplConfig::TIM_INT32,
     .CCR_VAL_MAX = 2500,
@@ -40,11 +42,12 @@ const typename Motor::PwmDcMotorImplConfig MOTOR_IMPL_RIGHT {
 
 const typename Motor::PwmDcMotorConfig MOTOR { 
     .FBK_PERIOD = 1,
-    .PULSE_TO_RAD_RATIO = 3.1415926f 
+    .PULSE_TO_RAD_RATIO = 1.0f / 30.0f / 500.0f * (2.0f * 3.1415926f) / 2.0f // 1 / reduction ratio / pulse per revolution * 2 pi / 2 (timer) 
 };
 
 const typename Lqr::LqrConfig<6, 2> LQR {
-    .K = Matrixf<2, 6>((float[12]) { 0.0f }),
+    .K = Matrixf<2, 6>((float[12]) { 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 
+                                     0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f }),
     .Umax = Matrixf<1, 2>((float[2]) { 1.0f, 1.0f }),
 };
 
