@@ -30,6 +30,7 @@ public:
     ~Lqr() = default;
 
     void calc() {
+#warning "TODO : use delta control"
         Z = ref - set;
         U = (-K * Z).trans();
         abs_limit<1, du>(U, Umax);
@@ -52,7 +53,6 @@ public:
     {
         return U[0][i];
     }
-    
 
 private:
     Lqr() = delete; // must init

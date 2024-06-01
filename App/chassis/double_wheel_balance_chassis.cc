@@ -56,27 +56,32 @@ void Chassis<Here>::update_state() {
     motors[0]->feedback();
     motors[1]->feedback();
 
-    ref.vx = 0.0f;
-    ref.vy = (motors[0]->get_speed() + motors[1]->get_speed()) * WHEEL_DIAMETER;
-    ref.wz = imu.gyro[0];
+    ref.vx = (motors[0]->get_speed() + motors[1]->get_speed()) * WHEEL_DIAMETER / 2.0f;
+    ref.vy = 0.0f;
+    ref.wz = imu.gyro[2];
 
-    displacement += ref.vy * (float)Config::Time::CHASSIS_CYCLE / 1000.0f;
-    if (set.vy != 0)
+    displacement += ref.vx * (float)Config::Time::CHASSIS_CYCLE / 1000.0f;
+    if (set.vx != 0)
         displacement = 0.0f;
 
     yaw_set += set.wz * (float)Config::Time::CHASSIS_CYCLE / 1000.0f;
 }
 
 void Chassis<Here>::ctrl_val_calc() {
-    lqr.update_set((float[6]) { 0.0f, set.vy, TILT_ANGLE_SET, 0.0f, yaw_set, set.wz });
-    lqr.update_ref((float[6]) { displacement, ref.vx, tilt_angle, tilt_speed, yaw, ref.wz });
+    float z_set[] = { 0.0f, set.vx, TILT_ANGLE_SET, 0.0f, yaw_set, set.wz };
+    float z_ref[] = { displacement, ref.vx, tilt_angle, tilt_speed, yaw, ref.wz };
+
+    lqr.update_set(z_set);
+    lqr.update_ref(z_ref);
 
     lqr.calc();
+    
+    motors[0]->ctrl_val = lqr.get_u(0);
+    motors[1]->ctrl_val = lqr.get_u(1);
+#warning "TODO : add scale?"
 }
 
 void Chassis<Here>::ctrl() {
-    motors[0]->ctrl_val = lqr.get_u(0);
-    motors[1]->ctrl_val = lqr.get_u(1);
     motors[0]->ctrl();
     motors[1]->ctrl();
 }

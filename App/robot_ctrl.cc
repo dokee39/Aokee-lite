@@ -37,9 +37,9 @@ RobotCtrl::RobotCtrl(Chassis::ChassisBase* chassis):
     xLastWakeTime = xTaskGetTickCount();
 
     while (true) {
-        float vx_set = rc_ctrl.rc.ch[0];
-        float vy_set = rc_ctrl.rc.ch[1];
-        float wz_set = rc_ctrl.rc.ch[2];
+        float vx_set = -rc_ctrl.rc.ch[1];
+        float vy_set = -rc_ctrl.rc.ch[0];
+        float wz_set = -rc_ctrl.rc.ch[2];
         UserLib::deadzone_limit(vx_set, Config::RC::VX_SET_MAX);
         UserLib::deadzone_limit(vy_set, Config::RC::VY_SET_MAX);
         UserLib::deadzone_limit(wz_set, Config::RC::WZ_SET_MAX);

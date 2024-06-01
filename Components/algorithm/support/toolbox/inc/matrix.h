@@ -148,12 +148,23 @@ public:
         return block<_rows, 1>(0, col);
     }
 
+    float max(void) {
+        float max_val = this->data_[0];
+        for (int i = 1; i < _rows * _cols; i++) {
+            if (this->data_[i] > max_val) {
+                max_val = this->data_[i];
+            }
+        }
+        return max_val;
+    }
+
     // Transpose
     Matrixf<_cols, _rows> trans(void) {
         Matrixf<_cols, _rows> res;
         arm_mat_trans_f32(&arm_mat_, &res.arm_mat_);
         return res;
     }
+    
     // Trace
     float trace(void) {
         float res = 0;

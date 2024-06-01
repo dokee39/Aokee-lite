@@ -64,14 +64,16 @@ out/
 *.eide-template
 
 # others
+.aux/
 .cache/
-gdb-*
-debug-*
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
 .DS_Store
 .mxproject
 .nvim.lua
 .tech-ref/
+debug-*
+dkms.conf
+gdb-*
+modules.order
+Module.symvers
+Mkfile.old
+

@@ -9,8 +9,8 @@
 namespace Config::Chassis {
 namespace DoubleWheelChassis {
 
-const float WHEEL_DIAMETER(0.085f);
-const float TILT_ANGLE_SET(0.0f);
+const float WHEEL_DIAMETER(0.03f);
+const float TILT_ANGLE_SET(0.04f);
 
 const typename Motor::PwmDcMotorImplConfig MOTOR_IMPL_LEFT {
     .OUT_DIR = 1,
@@ -46,8 +46,8 @@ const typename Motor::PwmDcMotorConfig MOTOR {
 };
 
 const typename Lqr::LqrConfig<6, 2> LQR {
-    .K = Matrixf<2, 6>((float[12]) { 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 
-                                     0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f }),
+    .K = Matrixf<2, 6>((float[12]) { 0.00f, 6.9958f, -208.3373f, -20.2779f, -0.13f, -0.05f, 
+                                     0.00f, 6.9958f, -208.3373f, -20.2279f, 0.13f, 0.05f }),
     .Umax = Matrixf<1, 2>((float[2]) { 1.0f, 1.0f }),
 };
 

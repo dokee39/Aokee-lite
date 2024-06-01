@@ -22,7 +22,7 @@ private:
     void ctrl() override;
 
     /* Z[0] : displacement
-     * Z[1] : vy (speed)
+     * Z[1] : vx (speed)
      * Z[2] : tilt_angle
      * Z[3] : tilt_speed
      * Z[4] : yaw_angle
