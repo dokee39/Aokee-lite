@@ -23,7 +23,7 @@ namespace Priority {
 } // namespace Priority
 
 namespace RC {
-    const float VX_SET_RATIO(0.0f);
+    const float VX_SET_RATIO(2.0 / 700.0f);
     const float VY_SET_RATIO(0.0f);
     const float WZ_SET_RATIO(0.0f);
 
@@ -31,7 +31,7 @@ namespace RC {
     const int16_t VY_SET_DEADZONE(0);
     const int16_t WZ_SET_DEADZONE(0);
 
-    const float VX_SET_MAX(0.0f);
+    const float VX_SET_MAX(1.0f);
     const float VY_SET_MAX(0.0f);
     const float WZ_SET_MAX(0.0f);
 } // namespace RC

@@ -34,6 +34,7 @@ extern "C" {
 #define RC_CH_VALUE_MIN ((uint16_t)364)
 #define RC_CH_VALUE_OFFSET ((uint16_t)1024)
 #define RC_CH_VALUE_MAX ((uint16_t)1684)
+#define RC_CH_VALUE_DEADZONE ((uint16_t)20)
 
 /* ----------------------- RC Switch Definition----------------------------- */
 #define RC_SW_UP ((uint16_t)1)

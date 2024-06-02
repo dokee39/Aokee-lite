@@ -3,7 +3,7 @@
 #include "user_lib_cpp.hpp"
 
 namespace Pid {
-void Pid::calc(float ref, float set) {
+float Pid::calc(float ref, float set) {
     err_[1] = err_[0];
     err_[0] = (set - ref);
 
@@ -14,6 +14,8 @@ void Pid::calc(float ref, float set) {
     UserLib::abs_limit<float>(Iout_, max_iout);
     out_ = Pout_ + Iout_ + Dout_;
     UserLib::abs_limit<float>(out_, max_out);
+
+    return out_;
 }
 
 void Pid::clean() {

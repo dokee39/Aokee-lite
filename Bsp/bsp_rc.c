@@ -16,7 +16,7 @@ void RC_Init(uint8_t* rx1_buf, uint8_t* rx2_buf, uint16_t dma_buf_num) {
         __HAL_DMA_DISABLE(huart_dbus.hdmarx);
     }
 
-    huart_dbus.hdmarx->Instance->PAR = (uint32_t) & (USART3->DR);
+    huart_dbus.hdmarx->Instance->PAR = (uint32_t) & (huart_dbus.Instance->DR);
     //memory buffer 1
     //内存缓冲区1
     huart_dbus.hdmarx->Instance->M0AR = (uint32_t)(rx1_buf);

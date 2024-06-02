@@ -3,7 +3,6 @@
 #include "config.hpp"
 #include "remote_controller.h"
 #include "task.h"
-#include "user_lib_cpp.hpp"
 
 extern RC_ctrl_t rc_ctrl;
 
@@ -37,12 +36,9 @@ RobotCtrl::RobotCtrl(Chassis::ChassisBase* chassis):
     xLastWakeTime = xTaskGetTickCount();
 
     while (true) {
-        float vx_set = -rc_ctrl.rc.ch[1];
-        float vy_set = -rc_ctrl.rc.ch[0];
-        float wz_set = -rc_ctrl.rc.ch[2];
-        UserLib::deadzone_limit(vx_set, Config::RC::VX_SET_MAX);
-        UserLib::deadzone_limit(vy_set, Config::RC::VY_SET_MAX);
-        UserLib::deadzone_limit(wz_set, Config::RC::WZ_SET_MAX);
+        float vx_set = rc_ctrl.rc.ch[1] * Config::RC::VX_SET_RATIO;
+        float vy_set = -rc_ctrl.rc.ch[0] * Config::RC::VY_SET_RATIO;
+        float wz_set = -rc_ctrl.rc.ch[2] * Config::RC::WZ_SET_RATIO;
         chassis->set.vx = vx_set;
         chassis->set.vy = vy_set;
         chassis->set.wz = wz_set;

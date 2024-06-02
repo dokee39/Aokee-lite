@@ -2,8 +2,9 @@
 
 #include "chassis_base.hpp"
 #include "imu.hpp"
-#include "lqr_controller.hpp"
 #include "double_wheel_balance_chassis_config.hpp"
+
+using namespace Config::Chassis::DoubleWheelChassis;
 
 namespace Chassis {
 template<>
@@ -21,6 +22,9 @@ private:
     void ctrl_val_calc() override;
     void ctrl() override;
 
+    template<CTRL_METHOD_t T>
+    void ctrl_val_calc_();
+
     /* Z[0] : displacement
      * Z[1] : vx (speed)
      * Z[2] : tilt_angle
@@ -31,6 +35,11 @@ private:
      * U[1] : right motor control_val
     */
     Lqr::Lqr<6, 2> lqr;
+    std::vector<Pid::Pid> pid_motors;
+    Pid::Pid pid_tilt;
+    Pid::Pid pid_vx;
+    Pid::Pid pid_yaw;
+    
     float displacement = 0.0f;
     float& yaw;
     float yaw_set;
