@@ -95,11 +95,13 @@ template<>
 void Chassis<Here>::ctrl_val_calc_<CTRL_PID>() {
     float tilt_angle_set(0.0f);
     float speed_set_tilt(0.0f);
+    float speed_set_yaw(0.0f);
     if (UserLib::abs(tilt_angle) < TILT_ANGLE_LAZY) {
+        speed_set_yaw = pid_yaw.calc(yaw, yaw_set);
         tilt_angle_set = pid_vx.calc(ref.vx, set.vx) + TILT_ANGLE_SET;
         speed_set_tilt = -pid_tilt.calc(tilt_angle, tilt_angle_set);
-        motors[0]->ctrl_val = pid_motors[0].calc(motors[0]->get_speed(), speed_set_tilt);
-        motors[1]->ctrl_val = pid_motors[1].calc(motors[1]->get_speed(), speed_set_tilt);
+        motors[0]->ctrl_val = pid_motors[0].calc(motors[0]->get_speed(), speed_set_tilt + speed_set_yaw);
+        motors[1]->ctrl_val = pid_motors[1].calc(motors[1]->get_speed(), speed_set_tilt - speed_set_yaw);
     } else {
         motors[0]->ctrl_val = MOTOR_CTRL_VAL_MAX * tilt_angle / UserLib::abs((tilt_angle));
         motors[1]->ctrl_val = MOTOR_CTRL_VAL_MAX * tilt_angle / UserLib::abs((tilt_angle));
