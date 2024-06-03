@@ -1,8 +1,8 @@
 #include "robot_ctrl.hpp"
 #include "FreeRTOS.h"
+#include "task.h"
 #include "config.hpp"
 #include "remote_controller.h"
-#include "task.h"
 
 extern RC_ctrl_t rc_ctrl;
 

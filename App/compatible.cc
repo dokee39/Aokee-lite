@@ -1,11 +1,10 @@
-#include "FreeRTOS.h"
 #include "compatible.h"
-#include "config.hpp"
-#include "imu.hpp"
-#include "led_task.h"
-#include "robot_ctrl.hpp"
+#include "FreeRTOS.h"
 #include "task.h"
+#include "config.hpp"
+#include "led_task.h"
 #include "double_wheel_balance_chassis.hpp"
+#include "robot_ctrl.hpp"
 
 void main_entry(void) {
     TaskHandle_t xCreatedLedTask;

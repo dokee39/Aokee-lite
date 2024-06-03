@@ -1,11 +1,8 @@
-#include "config.hpp"
 #include "double_wheel_balance_chassis.hpp"
-#include "double_wheel_balance_chassis_config.hpp"
 #include "FreeRTOS.h"
 #include "task.h"
-
-#warning "DEBUG"
-#include "bsp_usart.h"
+#include "config.hpp"
+#include "double_wheel_balance_chassis_config.hpp"
 
 using namespace Config::Chassis::DoubleWheelChassis;
 using Here = Config::Chassis::DoubleWheelBalanceChassisConfig; 
@@ -106,8 +103,6 @@ void Chassis<Here>::ctrl_val_calc_<CTRL_PID>() {
         motors[0]->ctrl_val = MOTOR_CTRL_VAL_MAX * tilt_angle / UserLib::abs((tilt_angle));
         motors[1]->ctrl_val = MOTOR_CTRL_VAL_MAX * tilt_angle / UserLib::abs((tilt_angle));
     }
-#warning "DEBUG"
-    usart1_printf("%.3f,%.3f,%3f\n", set.vx, ref.vx, tilt_angle_set);
 }
 
 void Chassis<Here>::ctrl_val_calc() {

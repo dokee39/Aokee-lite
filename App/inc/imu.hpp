@@ -1,11 +1,8 @@
 #pragma once
 
 #include "FreeRTOS.h"
-#include "i2c.h"
 #include "mpu6050.h"
-#include "portmacro.h"
 #include "sw_i2c.h"
-#include "task.h"
 
 extern sw_i2c_t sw_i2c1;
 

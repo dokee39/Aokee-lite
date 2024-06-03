@@ -1,8 +1,8 @@
 #include <math.h>
 
 #include "FreeRTOS.h"
-#include "led_task.h"
 #include "task.h"
+#include "led_task.h"
 #include "ws2812.h"
 
 #define LED_FLOW_PERIOD pdMS_TO_TICKS(1200)
